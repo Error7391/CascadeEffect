@@ -1,0 +1,11 @@
+Autonomous -
+    1. Where are the Robots placed before we launch? Is there are a specific spot to place the robot or is there a base zone to place it?
+    2. Who places the Robot on the Game Field? Us or the Judges.
+    2A. We place the Robot, but it as to be on our side and it has to touch the Wall.
+    3. Do they place it in the same spot every time, or is it randomized?
+    3A. This is answered in the 2nd Answer.
+    4. Are we Penalized if we go outside our side of the Game Board?
+    5. When do they place the InfraRed Beacon?
+    5A. They place it after we set the Position of the Robot. We can not touch the Robot after they place the Beacon.
+    6. How many blocks can we place in one of the Goals?    
+ 
