@@ -67,8 +67,8 @@ void initializeRobot()
 {
 	// Place code here to sinitialize servos to starting positions.
 	// Sensors are automatically configured and setup by ROBOTC. They may need a brief time to stabilize.
-	string sFileName = "debug.txt";
-	int nFileSize =10000;
+	char * sFileName = "debug.txt";
+	short nFileSize =10000;
 
 
 
