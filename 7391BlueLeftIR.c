@@ -37,9 +37,9 @@ char sOutput[100];
 #include "7391RobotDriver.c" //Include file of Robot Drivers.
 #include "7391AutoUtils.c" //Include file of Autonomous Utilities
 
-
-int side = LEFT;
-//int side = RIGHT;
+#define RAMP 1
+int loc = RAMP;
+//int loc = ZONE;
 int color = BLUECOLOR;
 //int color = BLUECOLOR;
 //const int DELAY = 10; //seconds
@@ -120,7 +120,7 @@ task main()
 {
 	initializeRobot();
 
-	waitForStart(); // Wait for the beginning of autonomous phase.
+	//waitForStart(); // Wait for the beginning of autonomous phase.
 
 
 	//_______________________________________________________________________________________________________________________
@@ -129,20 +129,21 @@ task main()
 	liftBasket();
 
 	wait10Msec(DELAY*100); //wait for other side
-
-	float distance;
+	eraseDisplay();
+	int beacon;
 	//nxtDisplayTextLine(1, "here 21" );
 	//while (nNxtButtonPressed != kLeftButton){}
-	if (LEFT == side)
-		distance = findBeacon(IR_LEFT);
+	if (RAMP == loc)
+		beacon = getBeaconVal(12);
 
-	else //if (RIGHT == side)
-		distance = findBeacon(IR_RIGHT);
+	else //if (ZONE == loc)
+		beacon = getBeaconVal(IR_RIGHT);
 
 	//nxtDisplayTextLine(1, "here 22" );
-	//while (nNxtButtonPressed != kEnterButton){}
+	while (nNxtButtonPressed != kEnterButton){}
+	goDownRamp();
 
-	dropNramp(side, distance, color);
+	//dropNramp(side, distance, color);
 
 	Close(hFileHandle, nIoResult);
 }
