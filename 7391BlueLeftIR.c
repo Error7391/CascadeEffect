@@ -72,6 +72,9 @@ void initializeRobot()
 
 
 
+
+
+
 	eraseDisplay();
 	nxtDisplayTextLine(0, "Autonomous Period");
 
@@ -93,28 +96,33 @@ void initializeRobot()
 
 	return;
 }
+//////////////////////////////////////////////////////////////////////////////////////////////
+//Autonomous Period
+
+//-by Arjun Verma (FTC Team Error 7391)
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                                         Main Task
-//
-// The following is the main code for the autonomous robot operation. Customize as appropriate for
-// your specific robot.
-//
-// The types of things you might do during the autonomous phase (for the 2008-9 FTC competition)
-// are:
-//
-//   1. Have the robot follow a line on the game field until it reaches one of the puck storage
-//      areas.
-//   2. Load pucks into the robot from the storage bin.
-//   3. Stop the robot and wait for autonomous phase to end.
-//
-// This simple template does nothing except play a periodic tone every few seconds.
-//
-// At the end of the autonomous period, the FMS will autonmatically abort (stop) execution of the program.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//(POSITION 1 - perpendicular)
+
+//(POSITION 2 - 45 degrees left of POS 2)
+
+//(POSITION 3 - 45 degrees right of POS 1)
+
+//RAMP MODE
+
+//Get off ramp
+//Find optimal position to detect IR beacon
+	//if IR beacon is detected at position one then do:
+		//go forward till IR beacon is perpendicular to robot
+		//go to the rolling goals and score in the highest goal
+		//pick up rolling goal
+		//turn toward IR beacon
+		//score one ball in the center goal
+		//place rolling goal in the parking zone
+		//get other rolling goals if time
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 task main()
 {
