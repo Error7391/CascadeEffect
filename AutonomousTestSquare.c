@@ -72,6 +72,7 @@ void initializeRobot()
 
 void moveInches(float distance, int speed);
 void pivotDegrees(float degrees, int speed, bool dir);
+void turnDegrees(int degrees);
 
 #define DRIVE_DIAMETER 3
 #define FORWARD 0
@@ -87,26 +88,31 @@ task main()
 
   servo[move1] = 128;
   servo[move2] = 128;
-  wait10Msec(1000);
- 	moveInches(84,100);
+  wait10Msec(200);
+ 	moveInches(6,25);
 
- 	 servo[move1] = 144;
- 	 servo[move2] = 144;
+ 	 turnDegrees(90);
  	 wait10Msec(200);
- 	 moveInches(24,100);
+ 	 moveInches(6,25);
 
- 	 servo[move1] = 160;
- 	 servo[move2] = 160;
+ 	 turnDegrees(180);
  	 wait10Msec(200);
- 	 moveInches(24,100);
+ 	 moveInches(6,25);
 
- 	 servo[move1] = 176;
- 	 servo[move2] = 176;
+ 	 turnDegrees(-90);
  	 wait10Msec(200);
- 	 moveInches(24,100);
+ 	 moveInches(6,25);
+
+ 	 turnDegrees(0);
 }
 
-void turnDegrees(int degrees, int speed){
+void turnDegrees(int degrees){
+	//16degrees = 90 degrees
+  //positive is right
+	//negative is left
+	int ticks = 128+(16/90)*degrees;
+	servo[move1] = ticks;
+	servo[move2] = ticks;
 
 }
 
@@ -156,8 +162,8 @@ void moveInches(float distance, int speed)
 	int ticks = 1440/(DRIVE_DIAMETER*PI)*distance;
 	nMotorEncoder[motorR] = 0;
 	nMotorEncoder[motorL] = 0;
-	nMotorEncoderTarget[motorR] = ticks*2;
-	nMotorEncoderTarget[motorL] = ticks*2;
+	nMotorEncoderTarget[motorR] = ticks/2;
+	nMotorEncoderTarget[motorL] = ticks/2;
 
 	if(distance > 0){
 		motor[motorR] = speed;
