@@ -24,7 +24,7 @@
 
 //Function Declarations
 void findColor(int color);
-float findBeacon(int irGoal);
+int getBeaconVal(int irGoal);
 void dropNramp (int side, float distance_traveled, int color);
 
 //defines
@@ -88,192 +88,165 @@ void findColor(int color)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//                                         Find Beacon
+//                                         getBeaconVal
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-float findBeacon(int irGoal)
+int getBeaconVal(int irGoal)
 {
-	nMotorEncoder[motorL] = 0;
+
 	int irValue = 0;
-	motor[motorR] = 0;
-	while (SensorValue(irSeeker) != irGoal){
-		motor[motorR] = -20;
-		motor[motorL] = -20;
+
+//	while (SensorValue(irSeeker) != irGoal){
+
 		irValue = SensorValue(irSeeker);
+		eraseDisplay();
 		nxtDisplayTextLine(4, "irValue %d", irValue);
 		//getColorSensorData(colorPort, colorRaw,    &nRawValues[0]);
 		sprintf(sOutput, "irValue%d\n", irValue);
 		WriteText(hFileHandle, nIoResult, sOutput);
-	}
-	float distance_traveled = ticks2inches(nMotorEncoder[motorL]);
-	motor[motorR] = 0 ;
-	motor[motorL] = 0 ;
+	//}
 
-	return(distance_traveled);
+	return(irValue);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//                                         dropNramp
+//                                         goDownRamp
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const int DIST_BEACON2BASKET = 10;
 const float DIST_LINE2BASKET = 9;
 
-void dropNramp (int side, float distance_traveled, int color)
+void goDownRamp ()
 {
 	//nxtDisplayTextLine(1, "here 1" );
 	//nxtDisplayTextLine(2, "%d", distance_traveled);
 	//while (nNxtButtonPressed != kLeftButton){}
-	if (side == LEFT){
-		if (distance_traveled == 0) { //NEAREST BASKET !!!!!!!!!!
-				moveInches(-8.5, 40);
-				distance_traveled -= 8.5;
-		}
-		else if (distance_traveled < -15){ //FAR SIDE!!!!!!!!!!!!!!!!!
-				moveInches(-7, 40);
-				distance_traveled -= 7;
-		}
-		else { //NEAR SIDE !!!!!!!!!!!!!!!!!
-				moveInches(-13, 40);
-				distance_traveled -= 13;
-		}
-}
-else {
-		if (distance_traveled == 0) { //NEAREST BASKET !!!!!!!!!!
-				moveInches(-8.5, 40);
-				distance_traveled -= 8.5;
-		}
-		else if (distance_traveled < -15){ //FAR SIDE!!!!!!!!!!!!!!!!!
-				moveInches(-3, 40);
-				distance_traveled -= 3;
-		}
-		else { //NEAR SIDE !!!!!!!!!!!!!!!!!
-				moveInches(-8, 40);
-				distance_traveled -= 8;
-		}
-}
+	moveInches(40,30);
 
 
-	nxtDisplayTextLine(2, "%d", distance_traveled);
-	//nxtDisplayTextLine(1, "here 2" );
-	//while (nNxtButtonPressed != kEnterButton){}
-
-	if (LEFT == side)
-	{
-
-		pivotDegrees(-95, 40, FORWARD);
-		//nxtDisplayTextLine(1, "here 3" );
-		//while (nNxtButtonPressed != kLeftButton){}
-
-		while (time100[1] < 90){}
-
-		moveInches(DIST_LINE2BASKET, 40);
-		//nxtDisplayTextLine(1, "here 4" );
-		//while (nNxtButtonPressed != kEnterButton){}
-
-		//DROP CUBE
-		ungrab();
-		//nxtDisplayTextLine(1, "here 5" );
-		//while (nNxtButtonPressed != kLeftButton){}
-
-		//moveInches(-DIST_LINE2BASKET + 1, 40);
-		moveInches(-7.5, 40);
 
 
-		//nxtDisplayTextLine(1, "here 6" );
-		//while (nNxtButtonPressed != kEnterButton){}
 
-		pivotDegrees(94, 50, BACKWARD);
-		//nxtDisplayTextLine(1, "here 7" );
-		//while (nNxtButtonPressed != kLeftButton){}
-		liftRamp();
+	//nxtDisplayTextLine(2, "%d", distance_traveled);
+	nxtDisplayTextLine(1, "here 2" );
+	while (nNxtButtonPressed != kEnterButton){}
 
-		motor[motorR] = 0;
-		motor[motorL] = 0;
-		moveInches(-distance_traveled, 60);
-		//moveInches(DIST_BEACON2BASKET, 40);
+//	if (LEFT == side)
+//	{
 
-		//nxtDisplayTextLine(1, "here 8" );
-		//while (nNxtButtonPressed != kEnterButton){}
+//		pivotDegrees(-95, 40, FORWARD);
+//		//nxtDisplayTextLine(1, "here 3" );
+//		//while (nNxtButtonPressed != kLeftButton){}
 
-		pivotDegrees(-45, 50, FORWARD);
-		//nxtDisplayTextLine(1, "here 9" );
-		//while (nNxtButtonPressed != kLeftButton){}
-		moveInches(16, 70);
-		//nxtDisplayTextLine(1, "here 10" );
-		//while (nNxtButtonPressed != kEnterButton){}
-		pivotDegrees(-45, 50, FORWARD);
-		//nxtDisplayTextLine(1, "here 11" );
-		//while (nNxtButtonPressed != kLeftButton){}
-		findColor(color);
-		moveInches(3, 60);
-		//nxtDisplayTextLine(1, "here 12" );
-		//while (nNxtButtonPressed != kEnterButton){}
-		pivotDegrees(94, 50, BACKWARD);
-		//nxtDisplayTextLine(1, "here 13" );
-		//while (nNxtButtonPressed != kLeftButton){}
-		moveInches(-30, 100);
-		//nxtDisplayTextLine(1, "here 14" );
-		//while (nNxtButtonPressed != kEnterButton){}
+//		while (time100[1] < 90){}
+
+//		moveInches(DIST_LINE2BASKET, 40);
+//		//nxtDisplayTextLine(1, "here 4" );
+//		//while (nNxtButtonPressed != kEnterButton){}
+
+//		//DROP CUBE
+//		ungrab();
+//		//nxtDisplayTextLine(1, "here 5" );
+//		//while (nNxtButtonPressed != kLeftButton){}
+
+//		//moveInches(-DIST_LINE2BASKET + 1, 40);
+//		moveInches(-7.5, 40);
 
 
-	}
-	else
-	{
+//		//nxtDisplayTextLine(1, "here 6" );
+//		//while (nNxtButtonPressed != kEnterButton){}
 
-		pivotDegrees(95, 40, FORWARD);
-		//nxtDisplayTextLine(1, "here 3" );
-		//while (nNxtButtonPressed != kLeftButton){}
+//		pivotDegrees(94, 50, BACKWARD);
+//		//nxtDisplayTextLine(1, "here 7" );
+//		//while (nNxtButtonPressed != kLeftButton){}
+//		liftRamp();
 
-		while (time100[1] < 90){}
+//		motor[motorR] = 0;
+//		motor[motorL] = 0;
+//		moveInches(-distance_traveled, 60);
+//		//moveInches(DIST_BEACON2BASKET, 40);
 
-		moveInches(DIST_LINE2BASKET, 40);
-		//nxtDisplayTextLine(1, "here 4" );
-		//while (nNxtButtonPressed != kEnterButton){}
+//		//nxtDisplayTextLine(1, "here 8" );
+//		//while (nNxtButtonPressed != kEnterButton){}
 
-		//DROP CUBE
-		ungrab();
-		//nxtDisplayTextLine(1, "here 5" );
-		//while (nNxtButtonPressed != kLeftButton){}
+//		pivotDegrees(-45, 50, FORWARD);
+//		//nxtDisplayTextLine(1, "here 9" );
+//		//while (nNxtButtonPressed != kLeftButton){}
+//		moveInches(16, 70);
+//		//nxtDisplayTextLine(1, "here 10" );
+//		//while (nNxtButtonPressed != kEnterButton){}
+//		pivotDegrees(-45, 50, FORWARD);
+//		//nxtDisplayTextLine(1, "here 11" );
+//		//while (nNxtButtonPressed != kLeftButton){}
+//		findColor(color);
+//		moveInches(3, 60);
+//		//nxtDisplayTextLine(1, "here 12" );
+//		//while (nNxtButtonPressed != kEnterButton){}
+//		pivotDegrees(94, 50, BACKWARD);
+//		//nxtDisplayTextLine(1, "here 13" );
+//		//while (nNxtButtonPressed != kLeftButton){}
+//		moveInches(-30, 100);
+//		//nxtDisplayTextLine(1, "here 14" );
+//		//while (nNxtButtonPressed != kEnterButton){}
 
-		moveInches(-7.5, 60);
 
-		//nxtDisplayTextLine(1, "here 6" );
-		//while (nNxtButtonPressed != kEnterButton){}
+//	}
+//	else
+//	{
 
-		pivotDegrees(-94, 50, BACKWARD);
-		//nxtDisplayTextLine(1, "here 7" );
-		//while (nNxtButtonPressed != kLeftButton){}
-		liftRamp();
+//		pivotDegrees(95, 40, FORWARD);
+//		//nxtDisplayTextLine(1, "here 3" );
+//		//while (nNxtButtonPressed != kLeftButton){}
 
-		motor[motorR] = 0;
-		motor[motorL] = 0;
-		moveInches(-distance_traveled, 60);
-		//nxtDisplayTextLine(1, "here 8" );
-		//while (nNxtButtonPressed != kEnterButton){}
+//		while (time100[1] < 90){}
 
-		pivotDegrees(45, 50, FORWARD);
-		//nxtDisplayTextLine(1, "here 9" );
-		//while (nNxtButtonPressed != kLeftButton){}
-		moveInches(16, 70);
-		//nxtDisplayTextLine(1, "here 10" );
-		//while (nNxtButtonPressed != kEnterButton){}
-		pivotDegrees(45, 50, FORWARD);
-		//nxtDisplayTextLine(1, "here 11" );
-		//while (nNxtButtonPressed != kLeftButton){}
-		findColor(color);
-		moveInches(3, 60);
-		//nxtDisplayTextLine(1, "here 12" );
-		//while (nNxtButtonPressed != kEnterButton){}
-		pivotDegrees(-94, 50, BACKWARD);
-		//nxtDisplayTextLine(1, "here 13" );
-		//while (nNxtButtonPressed != kLeftButton){}
-		moveInches(-30, 100);
-		//nxtDisplayTextLine(1, "here 14" );
-		//while (nNxtButtonPressed != kEnterButton){}
+//		moveInches(DIST_LINE2BASKET, 40);
+//		//nxtDisplayTextLine(1, "here 4" );
+//		//while (nNxtButtonPressed != kEnterButton){}
 
-	}
+//		//DROP CUBE
+//		ungrab();
+//		//nxtDisplayTextLine(1, "here 5" );
+//		//while (nNxtButtonPressed != kLeftButton){}
+
+//		moveInches(-7.5, 60);
+
+//		//nxtDisplayTextLine(1, "here 6" );
+//		//while (nNxtButtonPressed != kEnterButton){}
+
+//		pivotDegrees(-94, 50, BACKWARD);
+//		//nxtDisplayTextLine(1, "here 7" );
+//		//while (nNxtButtonPressed != kLeftButton){}
+//		liftRamp();
+
+//		motor[motorR] = 0;
+//		motor[motorL] = 0;
+//		moveInches(-distance_traveled, 60);
+//		//nxtDisplayTextLine(1, "here 8" );
+//		//while (nNxtButtonPressed != kEnterButton){}
+
+//		pivotDegrees(45, 50, FORWARD);
+//		//nxtDisplayTextLine(1, "here 9" );
+//		//while (nNxtButtonPressed != kLeftButton){}
+//		moveInches(16, 70);
+//		//nxtDisplayTextLine(1, "here 10" );
+//		//while (nNxtButtonPressed != kEnterButton){}
+//		pivotDegrees(45, 50, FORWARD);
+//		//nxtDisplayTextLine(1, "here 11" );
+//		//while (nNxtButtonPressed != kLeftButton){}
+//		findColor(color);
+//		moveInches(3, 60);
+//		//nxtDisplayTextLine(1, "here 12" );
+//		//while (nNxtButtonPressed != kEnterButton){}
+//		pivotDegrees(-94, 50, BACKWARD);
+//		//nxtDisplayTextLine(1, "here 13" );
+//		//while (nNxtButtonPressed != kLeftButton){}
+//		moveInches(-30, 100);
+//		//nxtDisplayTextLine(1, "here 14" );
+//		//while (nNxtButtonPressed != kEnterButton){}
+
+//	}
 }

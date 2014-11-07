@@ -72,6 +72,7 @@ void initializeRobot()
 
 void moveInches(float distance, int speed);
 void pivotDegrees(float degrees, int speed, bool dir);
+void turnDegrees(int degrees);
 
 #define DRIVE_DIAMETER 3
 #define FORWARD 0
@@ -86,26 +87,48 @@ task main()
   //waitForStart(); // Wait for the beginning of autonomous phase.
   servo[move1] = 128;
   servo[move2] = 128;
+<<<<<<< HEAD
   wait10Msec(400);
  	moveInches(24,30);
+=======
+  wait10Msec(200);
+ 	moveInches(6,25);
+>>>>>>> dae922d05d6497f0b478b7433abe609df9faa8e6
 
- 	 servo[move1] = 144;
- 	 servo[move2] = 144;
+ 	 turnDegrees(90);
  	 wait10Msec(200);
+<<<<<<< HEAD
  	 moveInches(24,30);
+=======
+ 	 moveInches(6,25);
+>>>>>>> dae922d05d6497f0b478b7433abe609df9faa8e6
 
- 	 servo[move1] = 160;
- 	 servo[move2] = 160;
+ 	 turnDegrees(180);
  	 wait10Msec(200);
+<<<<<<< HEAD
  	moveInches(24,30);
+=======
+ 	 moveInches(6,25);
+>>>>>>> dae922d05d6497f0b478b7433abe609df9faa8e6
 
- 	 servo[move1] = 176;
- 	 servo[move2] = 176;
+ 	 turnDegrees(-90);
  	 wait10Msec(200);
+<<<<<<< HEAD
  	moveInches(24,30);
+=======
+ 	 moveInches(6,25);
+
+ 	 turnDegrees(0);
+>>>>>>> dae922d05d6497f0b478b7433abe609df9faa8e6
 }
 
-void turnDegrees(int degrees, int speed){
+void turnDegrees(int degrees){
+	//16degrees = 90 degrees
+  //positive is right
+	//negative is left
+	int ticks = 128+(16/90)*degrees;
+	servo[move1] = ticks;
+	servo[move2] = ticks;
 
 }
 

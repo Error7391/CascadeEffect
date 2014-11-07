@@ -37,9 +37,9 @@ char sOutput[100];
 #include "7391RobotDriver.c" //Include file of Robot Drivers.
 #include "7391AutoUtils.c" //Include file of Autonomous Utilities
 
-
-int side = LEFT;
-//int side = RIGHT;
+#define RAMP 1
+int loc = RAMP;
+//int loc = ZONE;
 int color = BLUECOLOR;
 //int color = BLUECOLOR;
 //const int DELAY = 10; //seconds
@@ -67,8 +67,11 @@ void initializeRobot()
 {
 	// Place code here to sinitialize servos to starting positions.
 	// Sensors are automatically configured and setup by ROBOTC. They may need a brief time to stabilize.
-	string sFileName = "debug.txt";
-	int nFileSize =10000;
+	char * sFileName = "debug.txt";
+	short nFileSize =10000;
+
+
+
 
 
 
@@ -93,34 +96,39 @@ void initializeRobot()
 
 	return;
 }
+//////////////////////////////////////////////////////////////////////////////////////////////
+//Autonomous Period
+
+//-by Arjun Verma (FTC Team Error 7391)
 
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//                                         Main Task
-//
-// The following is the main code for the autonomous robot operation. Customize as appropriate for
-// your specific robot.
-//
-// The types of things you might do during the autonomous phase (for the 2008-9 FTC competition)
-// are:
-//
-//   1. Have the robot follow a line on the game field until it reaches one of the puck storage
-//      areas.
-//   2. Load pucks into the robot from the storage bin.
-//   3. Stop the robot and wait for autonomous phase to end.
-//
-// This simple template does nothing except play a periodic tone every few seconds.
-//
-// At the end of the autonomous period, the FMS will autonmatically abort (stop) execution of the program.
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//(POSITION 1 - perpendicular)
+
+//(POSITION 2 - 45 degrees left of POS 2)
+
+//(POSITION 3 - 45 degrees right of POS 1)
+
+//RAMP MODE
+
+//Get off ramp
+//Find optimal position to detect IR beacon
+	//if IR beacon is detected at position one then do:
+		//go forward till IR beacon is perpendicular to robot
+		//go to the rolling goals and score in the highest goal
+		//pick up rolling goal
+		//turn toward IR beacon
+		//score one ball in the center goal
+		//place rolling goal in the parking zone
+		//get other rolling goals if time
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 task main()
 {
 	initializeRobot();
 
-	waitForStart(); // Wait for the beginning of autonomous phase.
+	//waitForStart(); // Wait for the beginning of autonomous phase.
 
 
 	//_______________________________________________________________________________________________________________________
@@ -129,20 +137,21 @@ task main()
 	liftBasket();
 
 	wait10Msec(DELAY*100); //wait for other side
-
-	float distance;
+	eraseDisplay();
+	int beacon;
 	//nxtDisplayTextLine(1, "here 21" );
 	//while (nNxtButtonPressed != kLeftButton){}
-	if (LEFT == side)
-		distance = findBeacon(IR_LEFT);
+	if (RAMP == loc)
+		beacon = getBeaconVal(12);
 
-	else //if (RIGHT == side)
-		distance = findBeacon(IR_RIGHT);
+	else //if (ZONE == loc)
+		beacon = getBeaconVal(IR_RIGHT);
 
 	//nxtDisplayTextLine(1, "here 22" );
-	//while (nNxtButtonPressed != kEnterButton){}
+	while (nNxtButtonPressed != kEnterButton){}
+	goDownRamp();
 
-	dropNramp(side, distance, color);
+	//dropNramp(side, distance, color);
 
 	Close(hFileHandle, nIoResult);
 }
