@@ -84,26 +84,25 @@ task main()
   //initializeRobot();
 
   //waitForStart(); // Wait for the beginning of autonomous phase.
-
   servo[move1] = 128;
   servo[move2] = 128;
-  wait10Msec(1000);
- 	moveInches(84,100);
+  wait10Msec(400);
+ 	moveInches(24,30);
 
  	 servo[move1] = 144;
  	 servo[move2] = 144;
  	 wait10Msec(200);
- 	 moveInches(24,100);
+ 	 moveInches(24,30);
 
  	 servo[move1] = 160;
  	 servo[move2] = 160;
  	 wait10Msec(200);
- 	 moveInches(24,100);
+ 	moveInches(24,30);
 
  	 servo[move1] = 176;
  	 servo[move2] = 176;
  	 wait10Msec(200);
- 	 moveInches(24,100);
+ 	moveInches(24,30);
 }
 
 void turnDegrees(int degrees, int speed){
@@ -156,8 +155,8 @@ void moveInches(float distance, int speed)
 	int ticks = 1440/(DRIVE_DIAMETER*PI)*distance;
 	nMotorEncoder[motorR] = 0;
 	nMotorEncoder[motorL] = 0;
-	nMotorEncoderTarget[motorR] = ticks*2;
-	nMotorEncoderTarget[motorL] = ticks*2;
+	nMotorEncoderTarget[motorR] = ticks/2;
+	nMotorEncoderTarget[motorL] = ticks/2;
 
 	if(distance > 0){
 		motor[motorR] = speed;
