@@ -41,18 +41,20 @@ float inches2ticks(float inches, int distance);
 
 
 //defines
-#define DRIVE_DIAMETER 3
-#define FORWARD 0
-#define BACKWARD 1
+#define THE_CENTER_GOAL_ELBOW
+#define THE_90CM_GOAL_ELBOW
+#define THE_60CM_GOAL_ELBOW
+#define THE_30CM_GOAL_ELBOW
 
-#define HIGH_LIFT_BOTTOM 158
-#define HIGH_LIFT_TOP 35
-#define LOW_LIFT_BOTTOM 87
-#define LOW_LIFT_TOP 240
+#define THE_CENTER_GOAL_SHOULDER
+#define THE_90CM_GOAL_SHOULDER
+#define THE_60CM_GOAL_SHOULDER
+#define THE_30CM_GOAL_SHOULDER
 
-
-#define LOW_LIFT_HANG LOW_LIFT_TOP-80
-#define HIGH_LIFT_HANG HIGH_LIFT_TOP+80
+#define THE_CENTER_GOAL_WRIST
+#define THE_90CM_GOAL_WRIST
+#define THE_60CM_GOAL_WRIST
+#define THE_30CM_GOAL_WRIST
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
