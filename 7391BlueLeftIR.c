@@ -79,14 +79,9 @@ void initializeRobot()
 
 	nPidUpdateInterval = 20;
 
-	nMotorEncoder[motorR] = 0;
-	nMotorEncoder[motorL] = 0;
 
-	servoChangeRate[liftHigh] = 1;
-	servoChangeRate[liftLow] = 1;
-
-	liftBottom();
-
+	//armInit();
+	//driveInit();
 	wait1Msec(10);
 
 	return;
