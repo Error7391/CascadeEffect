@@ -26,6 +26,8 @@ void liftRamp();
 void liftHang();
 void liftBasket();
 
+void turnDegrees(int degrees);
+
 void moveInches(float distance/*inches*/, int speed/*0-100*/ );
 void rotateDegrees(float degrees, int speed, bool dir );
 void pivotDegrees(float degrees, int speed, bool dir );
@@ -77,6 +79,20 @@ void liftRamp()
 
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                                        TurnDegrees
+//
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+void turnDegrees(int degrees){
+	//16degrees = 90 degrees
+  //positive is right
+	//negative is left
+	int ticks = 128+(16/90)*degrees;
+	servo[move1] = ticks;
+	servo[move2] = ticks;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //
