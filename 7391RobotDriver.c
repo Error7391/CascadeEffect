@@ -41,9 +41,6 @@ float inches2ticks(float inches, int distance);
 
 
 //defines
-<<<<<<< HEAD
-
-=======
 #define DRIVE_DIAMETER 3
 #define FORWARD 0
 #define BACKWARD 1
@@ -75,7 +72,7 @@ float inches2ticks(float inches, int distance);
 #define INIT_MOVE1	128
 #define INIT_MOVE2	128
 
->>>>>>> origin/master
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
