@@ -58,8 +58,8 @@ float inches2ticks(float inches, int distance);
 
 void liftBottom()
 {
-	servo[liftHigh] = HIGH_LIFT_BOTTOM;
-	servo[liftLow] = LOW_LIFT_BOTTOM;
+	//servo[liftHigh] = HIGH_LIFT_BOTTOM;
+	//servo[liftLow] = LOW_LIFT_BOTTOM;
 
 }
 
