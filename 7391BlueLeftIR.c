@@ -33,7 +33,7 @@ TFileHandle hFileHandle;
 TFileIOResult nIoResult;
 char sOutput[100];
 
-#include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
+//#include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
 #include "7391RobotDriver.c" //Include file of Robot Drivers.
 #include "7391AutoUtils.c" //Include file of Autonomous Utilities
 
@@ -126,13 +126,13 @@ task main()
 	//_______________________________________________________________________________________________________________________
 	time100[1] = 0;
 
-	liftBasket();
+	//liftBasket();
 
 	wait10Msec(DELAY*100); //wait for other side
 	eraseDisplay();
 	int beacon;
-	//nxtDisplayTextLine(1, "here 21" );
-	//while (nNxtButtonPressed != kLeftButton){}
+	nxtDisplayTextLine(1, "here 21" );
+	while (nNxtButtonPressed != kLeftButton){}
 	if (RAMP == loc)
 		beacon = getBeaconVal(12);
 

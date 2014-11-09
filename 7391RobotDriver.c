@@ -41,6 +41,19 @@ float inches2ticks(float inches, int distance);
 
 
 //defines
+#define DRIVE_DIAMETER 3
+#define FORWARD 0
+#define BACKWARD 1
+
+#define HIGH_LIFT_BOTTOM 158
+#define HIGH_LIFT_TOP 35
+#define LOW_LIFT_BOTTOM 87
+#define LOW_LIFT_TOP 240
+
+
+#define LOW_LIFT_HANG LOW_LIFT_TOP-80
+#define HIGH_LIFT_HANG HIGH_LIFT_TOP+80
+
 #define THE_CENTER_GOAL_ELBOW
 #define THE_90CM_GOAL_ELBOW
 #define THE_60CM_GOAL_ELBOW
@@ -69,6 +82,10 @@ void driveInit(){
 	servoChangeRate[move1] = 1;
 	servoChangeRate[move2] = 1;
 
+	servo[move1] = INIT_MOVE1;
+	servo[move2] = INIT_MOVE2;
+
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,6 +97,9 @@ void armInit(){
 	servoChangeRate[shoulder] = 1;
 	servoChangeRate[elbow] = 1;
 	servoChangeRate[wrist] = 1;
+	servo[shoulder] = INIT_SHOULDER;
+	servo[elbow] = INIT_ELBOW;
+	servo[wrist] = INIT_WRIST;
 
 }
 
