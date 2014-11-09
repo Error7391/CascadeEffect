@@ -119,8 +119,8 @@ void moveInches(float distance, int speed)
 	int ticks = 1440/(DRIVE_DIAMETER*PI)*distance;
 	nMotorEncoder[motorR] = 0;
 	nMotorEncoder[motorL] = 0;
-	nMotorEncoderTarget[motorR] = ticks;
-	nMotorEncoderTarget[motorL] = ticks;
+	nMotorEncoderTarget[motorR] = ticks*2;
+	nMotorEncoderTarget[motorL] = ticks*2;
 
 	if(distance > 0){
 		motor[motorR] = speed;
@@ -146,7 +146,7 @@ void moveInches(float distance, int speed)
 float ticks2inches(float ticks){
 	float inches;
 	inches = ticks/(1440/(DRIVE_DIAMETER*PI));
-	return inches;
+	return inches*2;
 }
 
 float inches2ticks(float inches, int distance){
