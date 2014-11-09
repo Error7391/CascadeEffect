@@ -7,8 +7,8 @@
 #pragma config(Motor,  motorC,          grabR,         tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  mtr_S1_C1_1,     motorL,        tmotorTetrix, PIDControl, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     motorR,        tmotorTetrix, PIDControl, encoder)
-#pragma config(Servo,  srvo_S1_C2_1,    liftLow,              tServoStandard)
-#pragma config(Servo,  srvo_S1_C2_2,    liftHigh,             tServoStandard)
+#pragma config(Servo,  srvo_S1_C2_1,    move1,              tServoStandard)
+#pragma config(Servo,  srvo_S1_C2_2,    move2,             tServoStandard)
 #pragma config(Servo,  srvo_S1_C2_3,    servo3,               tServoNone)
 #pragma config(Servo,  srvo_S1_C2_4,    servo4,               tServoNone)
 #pragma config(Servo,  srvo_S1_C2_5,    servo5,               tServoNone)
@@ -27,6 +27,7 @@ void liftHang();
 void liftBasket();
 
 void turnDegrees(int degrees);
+void armInit();
 
 void moveInches(float distance/*inches*/, int speed/*0-100*/ );
 void rotateDegrees(float degrees, int speed, bool dir );
@@ -65,6 +66,15 @@ void liftBottom()
 
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//                                        armInit
+//
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+void armInit(){
+	shoudler
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //
