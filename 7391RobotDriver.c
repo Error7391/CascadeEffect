@@ -41,20 +41,28 @@ float inches2ticks(float inches, int distance);
 
 
 //defines
-#define THE_CENTER_GOAL_ELBOW
-#define THE_90CM_GOAL_ELBOW
-#define THE_60CM_GOAL_ELBOW
-#define THE_30CM_GOAL_ELBOW
+#define THE_CENTER_GOAL_ELBOW	100
+#define THE_90CM_GOAL_ELBOW		100
+#define THE_60CM_GOAL_ELBOW		100
+#define THE _30CM_GOAL_ELBOW	100
 
-#define THE_CENTER_GOAL_SHOULDER
-#define THE_90CM_GOAL_SHOULDER
-#define THE_60CM_GOAL_SHOULDER
-#define THE_30CM_GOAL_SHOULDER
+#define THE_CENTER_GOAL_SHOULDER	100
+#define THE_90CM_GOAL_SHOULDER		100
+#define THE_60CM_GOAL_SHOULDER		100
+#define THE_30CM_GOAL_SHOULDER		100
 
-#define THE_CENTER_GOAL_WRIST
-#define THE_90CM_GOAL_WRIST
-#define THE_60CM_GOAL_WRIST
-#define THE_30CM_GOAL_WRIST
+#define THE_CENTER_GOAL_WRIST		100
+#define THE_90CM_GOAL_WRIST			100
+#define THE_60CM_GOAL_WRIST			100
+#define THE_30CM_GOAL_WRIST			100
+
+#define INIT_ELBOW 		100
+#define INIT_SHOULDER 100
+#define INIT_WRIST 		100
+
+#define INIT_MOVE1	128
+#define INIT_MOVE2	128
+
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
