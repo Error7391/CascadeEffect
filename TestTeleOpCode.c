@@ -100,27 +100,49 @@ task main()
 	while (true)
 	{
 		getJoystickSettings(joystick);
-		if(abs(joystick.joy1_y1)>THRESH_VAL||abs(joystick.joy1_x1)>THRESH_VAL){
-			heading = -(atan2(joystick.joy1_y1,joystick.joy1_x1))*RADIANS_TO_SERVO;
 
-			servo[move1] = heading+HEADING_OFFSET;
-			servo[move2] = heading+HEADING_OFFSET;
+		if(joystick.joy1_TopHat == -1){
+			if(abs(joystick.joy1_y1)>THRESH_VAL||abs(joystick.joy1_x1)>THRESH_VAL){
+				heading = -(atan2(joystick.joy1_y1,joystick.joy1_x1))*RADIANS_TO_SERVO;
 
-			//	motor[motorL] = joystick.joy1_y1*MAX_MOTOR_SPEED;
-			//motor[motorR] = joystick.joy1_y1*MAX_MOTOR_SPEED;
+				servo[move1] = heading+HEADING_OFFSET;
+				servo[move2] = heading+HEADING_OFFSET;
+			}
+
+			if(joy1Btn(Y_BUTT) == IS_PRESSED){
+				motor[motorL] = MAX_MOTOR_SPEED;
+				motor[motorR] = MAX_MOTOR_SPEED;
+			}
+			else if(joy1Btn(A_BUTT) == IS_PRESSED){
+				motor[motorL] = SLOW_MOTOR_SPEED;
+				motor[motorR] = SLOW_MOTOR_SPEED;
+			}
+			else {
+				motor[motorL] = 0;
+				motor[motorR] = 0;
+			}
+
 		}
-		if(joy1Btn(Y_BUTT) == IS_PRESSED){
-			motor[motorL] = MAX_MOTOR_SPEED;
-			motor[motorR] = MAX_MOTOR_SPEED;
+		else {
+			servo[move1]=136;
+			servo[move2]=120;
+
+			if(joystick.joy1_TopHat == 7 || joystick.joy1_TopHat == 6 || joystick.joy1_TopHat == 5){
+				motor[motorL] = 20;
+				motor[motorR] = -20;
+			}
+			else if(joystick.joy1_TopHat == 1 || joystick.joy1_TopHat == 2 || joystick.joy1_TopHat == 3){
+				motor[motorL] = -20;
+				motor[motorR] = 20;
+			}
+			else{
+				motor[motorL] = 0;
+				motor[motorR] = 0;
+			}
+
 		}
-		else if(joy1Btn(A_BUTT) == IS_PRESSED){
-			motor[motorL] = SLOW_MOTOR_SPEED;
-			motor[motorR] = SLOW_MOTOR_SPEED;
-		}
-		else{
-			motor[motorL] = 0;
-			motor[motorR] = 0;
-		}
+
+
 
 		// Insert code to have servos and motors respond to joystick and button values.
 
