@@ -138,6 +138,17 @@ task main()
 			}
 		}
 
+		if(joy2Btn(Y_BUTT) == IS_PRESSED){
+			servo[elbow] = 255;
+			wait1Msec(500);
+			servo[wrist]  =255;
+			wait1Msec(500);
+			servo[shoulder]  = 0;
+			wait1Msec(600);
+			servo[elbow] = 0;
+			servo[wrist] = 0;
+		}
+
 		// Insert code to have servos and motors respond to joystick and button values.
 
 		// Look in the ROBOTC samples folder for programs that may be similar to what you want to perform.
