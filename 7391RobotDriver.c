@@ -89,7 +89,7 @@ void driveInit(){
 
 	servo[move1] = INIT_MOVE1;
 	servo[move2] = INIT_MOVE2;
-
+	nxtDisplayTextLine(4, "driveInit");
 
 }
 
