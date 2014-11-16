@@ -126,25 +126,25 @@ task main()
 	initializeRobot();
 	int irValue;
 	while (nNxtButtonPressed != kEnterButton){}
-	moveInches(40, 60);
+	moveInches(40, 30);
 	irValue = getBeaconVal(0);
 	while (nNxtButtonPressed != kEnterButton){}
 	if(irValue==7){
 		turnDegrees(-90);
 		while (nNxtButtonPressed != kEnterButton){}
-		moveInches(18, 25);
+		moveInches(18, 30);
 		while (nNxtButtonPressed != kEnterButton){}
-		moveInches(20, 60);
+		moveInches(20, 30);
 	}
 
 	else if(irValue==2 || irValue==3){
 		turnDegrees(-45);
 		while (nNxtButtonPressed != kEnterButton){}
-		moveInches(17, 60);
+		moveInches(17, 30);
 	}
 
 	else if(irValue==5){
-		moveInches(10, 60);
+		moveInches(10, 30);
 		while (nNxtButtonPressed != kEnterButton){}
 		turnDegrees(90);
 	}
