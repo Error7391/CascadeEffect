@@ -88,37 +88,15 @@ task main()
   servo[move1] = 128;
   servo[move2] = 128;
 
-  wait10Msec(400);
- 	moveInches(24,30);
+  wait10Msec(100);
+ 	moveInches(60,20);
 
-  wait10Msec(200);
- 	moveInches(6,25);
+ 	servo[move1] = 144;
+  servo[move2] = 144;
 
+  wait10Msec(100);
+ 	moveInches(24,20);
 
- 	 turnDegrees(90);
- 	 wait10Msec(200);
-
- 	 moveInches(24,30);
-
- 	 moveInches(6,25);
-
-
- 	 turnDegrees(180);
- 	 wait10Msec(200);
-
- 	moveInches(24,30);
-
- 	 moveInches(6,25);
-
-
- 	 turnDegrees(-90);
- 	 wait10Msec(200);
-
- 	moveInches(24,30);
-
- 	 moveInches(6,25);
-
- 	 turnDegrees(0);
 
 }
 
