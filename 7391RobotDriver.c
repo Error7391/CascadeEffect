@@ -46,8 +46,8 @@ void turnDegrees(int degrees){
   //positive is right
 	//negative is left
 	int ticks = 128+(16/90)*degrees;
-	servo[move1] = ticks;
-	servo[move2] = ticks;
+	servo[motorL] = ticks;
+	servo[motorR] = ticks;
 }
 
 
@@ -78,11 +78,11 @@ void moveInches(float distance, int speed)
 
 	while(nMotorRunState[motorR] != runStateIdle)
 	{
-		//currEncoderL =	nMotorEncoder[motorL];
-		//if (lastEncoderL < currEncoderL + 10){
-		//	break;
-		//}
-		//lastEncoderL = currEncoderL;
+		currEncoderL =	nMotorEncoder[motorL];
+		if (lastEncoderL < currEncoderL + 10){
+			break;
+		}
+		lastEncoderL = currEncoderL;
 	}
 	motor[motorR] = 0;
 	motor[motorL] = 0;

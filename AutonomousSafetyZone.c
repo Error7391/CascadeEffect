@@ -123,12 +123,18 @@ void initializeRobot()
 
 task main()
 {
+	writeDebugStreamLine("initalizing");
 	initializeRobot();
+	writeDebugStreamLine("initalized");
 	int irValue;
 	while (nNxtButtonPressed != kEnterButton){}
+	writeDebugStreamLine("move 24 inches");
 	moveInches(24, 30);
+	writeDebugStreamLine("moved");
+	while (nNxtButtonPressed != kEnterButton){}
 	turnDegrees(90);
-
+	writeDebugStreamLine("turned");
+	while (nNxtButtonPressed != kEnterButton){}
 	irValue = getBeaconVal(0);
 	while (nNxtButtonPressed != kEnterButton){}
 	if(irValue==7){
