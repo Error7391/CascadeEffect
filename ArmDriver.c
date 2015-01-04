@@ -78,7 +78,7 @@ void armInit(TArmState& tasr) {
 	// Hard coding the initial positions until calibration can be made
 	tasr.liftLowZero = 200;
 	tasr.liftHighZero = 200;
-	tasr.shoulderZero = 155;
+	tasr.shoulderZero = 150;
 	tasr.elbowZero = 25;
 
 	servo[liftLow] = tasr.liftLowZero;
