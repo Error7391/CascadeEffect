@@ -1,11 +1,11 @@
 #pragma config(Hubs,  S1, HTMotor,  HTServo,  none,     none)
-#pragma config(Motor,  motorA,          raiseA,        tmotorNXT, PIDControl, encoder)
-#pragma config(Motor,  motorB,          grabL,         tmotorNXT, PIDControl, encoder)
-#pragma config(Motor,  motorC,          grabR,         tmotorNXT, PIDControl, encoder)
-#pragma config(Motor,  mtr_S1_C1_1,     motorL,        tmotorTetrix, openLoop, reversed)
-#pragma config(Motor,  mtr_S1_C1_2,     motorR,        tmotorTetrix, openLoop)
+#pragma config(Motor,  motorA,          raiseA,        tmotorNXT, openLoop)
+#pragma config(Motor,  motorB,          grabL,         tmotorNXT, openLoop)
+#pragma config(Motor,  motorC,          grabR,         tmotorNXT, openLoop)
+#pragma config(Motor,  mtr_S1_C1_1,     motorR,        tmotorTetrix, openLoop, driveRight)
+#pragma config(Motor,  mtr_S1_C1_2,     motorL,        tmotorTetrix, openLoop, reversed, driveLeft)
 #pragma config(Servo,  srvo_S1_C2_1,    liftLow,              tServoStandard)
-#pragma config(Servo,  srvo_S1_C2_2,    liftHigh,             tServoStandard)
+#pragma config(Servo,  srvo_S1_C2_2,    servo2,               tServoNone)
 #pragma config(Servo,  srvo_S1_C2_3,    servo3,               tServoNone)
 #pragma config(Servo,  srvo_S1_C2_4,    servo4,               tServoNone)
 #pragma config(Servo,  srvo_S1_C2_5,    servo5,               tServoNone)
@@ -33,7 +33,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "JoystickDriver1.c"  //Include file to "handle" the Bluetooth messages.
-#include "7391RobotDriver.c"
+//#include "7391RobotDriver.c"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //																																																	//
