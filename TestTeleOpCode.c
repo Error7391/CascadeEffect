@@ -47,7 +47,8 @@ TArmState tas;
 
 void initializeRobot()
 {
-	armInit(tas);// Place code here to sinitialize servos to starting positions.
+	armInit(tas);// Place code here to initialize servos to starting positions.
+	wait10Msec(500);
 	// Sensors are automatically configured and setup by ROBOTC. They may need a brief time to stabilize.
 
 	return;
@@ -96,77 +97,76 @@ task main()
 	//const int IS_NOT_PRESSED = 0;
 
 
-	//initializeRobot();
+	initializeRobot();
 	//waitForStart();   // wait for start of tele-op phase
 
 	while (true)
 
 	{
-		//motor[motorL] = 30;
-		//motor[motorR] = 30;
-		//if(joy1Btn(TURBO_BUTT) == IS_PRESSED){
-		//	joystick2Move(100);
-		//}
-		//else{
-		//	joystick2Move(30);
-		//}
-		//if(joy2Btn(A_BUTT) == IS_PRESSED){
-		//	int distance = 0;
-		//	setPosition(tas, 1, distance);
-		//	if(joystick.joy1_TopHat == 0){
-		//		distance++;
-		//		setPosition(tas, 1, distance);
-		//	}
-		//	else if(joystick.joy1_TopHat == 4){
-		//		distance--;
-		//		setPosition(tas, 1, distance);
-		//	}
-		//}
-		//else if(joy2Btn(B_BUTT) == IS_PRESSED){
-		//	int distance = 0;
-		//	setPosition(tas, 2, distance);
-		//	if(joystick.joy1_TopHat == 0){
-		//		distance++;
-		//		setPosition(tas, 2, distance);
-		//	}
-		//	else if(joystick.joy1_TopHat == 4){
-		//		distance--;
-		//		setPosition(tas, 2, distance);
-		//	}
-		//}
-		//else if(joy2Btn(X_BUTT) == IS_PRESSED){
-		//	int distance = 0;
-		//	setPosition(tas, 3, distance);
-		//	if(joystick.joy1_TopHat == 0){
-		//		distance++;
-		//		setPosition(tas, 3, distance);
-		//	}
-		//	else if(joystick.joy1_TopHat == 4){
-		//		distance--;
-		//		setPosition(tas, 3, distance);
-		//	}
-		//}
-		//else if(joy2Btn(Y_BUTT) == IS_PRESSED){
-		//	int distance = 0;
-		//	setPosition(tas, 4, distance);
-		//	if(joystick.joy1_TopHat == 0){
-		//		distance++;
-		//		setPosition(tas, 4, distance);
-		//	}
-		//	else if(joystick.joy1_TopHat == 4){
-		//		distance--;
-		//		setPosition(tas, 4, distance);
-		//	}
-		//}
-		//if(joy2Btn(TURBO_BUTT)==IS_PRESSED){
-		//	servo[scoop] = 256;
-		//}
-		//else if(joy2Btn(5)==IS_PRESSED){
-		//	servo[scoop]  = 0;
-		//}
-		//else if(joy2Btn(TURBO_BUTT)== 0 && joy2Btn(5) == 0){
-		//	servo[scoop] = 128;
-		//}
+		motor[motorL] = 30;
+		motor[motorR] = 30;
+		if(joy1Btn(TURBO_BUTT) == IS_PRESSED){
+			joystick2Move(100);
+		}
+		else{
+			joystick2Move(30);
+		}
+		if(joy2Btn(A_BUTT) == IS_PRESSED){
+			int distance = 0;
+			setPosition(tas, 1, distance);
+			if(joystick.joy1_TopHat == 0){
+				distance++;
+				setPosition(tas, 1, distance);
+			}
+			else if(joystick.joy1_TopHat == 4){
+				distance--;
+				setPosition(tas, 1, distance);
+			}
+		}
+		else if(joy2Btn(B_BUTT) == IS_PRESSED){
+			setPosition(tas, 2, 0);
+			if(joystick.joy1_TopHat == 0){
+				incDistance(tas);
+				//setPosition(tas, 2, distance);
+			}
+			else if(joystick.joy1_TopHat == 4){
+				incDistance(tas);
+				//setPosition(tas, 2, distance);
+			}
+		}
+		else if(joy2Btn(X_BUTT) == IS_PRESSED){
+			int distance = 0;
+			setPosition(tas, 3, distance);
+			if(joystick.joy1_TopHat == 0){
+				distance++;
+				setPosition(tas, 3, distance);
+			}
+			else if(joystick.joy1_TopHat == 4){
+				distance--;
+				setPosition(tas, 3, distance);
+			}
+		}
+		else if(joy2Btn(Y_BUTT) == IS_PRESSED){
+			int distance = 0;
+			setPosition(tas, 4, distance);
+			if(joystick.joy1_TopHat == 0){
+				distance++;
+				setPosition(tas, 4, distance);
+			}
+			else if(joystick.joy1_TopHat == 4){
+				distance--;
+				setPosition(tas, 4, distance);
+			}
+		}
+		if(joy2Btn(TURBO_BUTT)==IS_PRESSED){
+			servo[scoop] = 256;
+		}
+		else if(joy2Btn(5)==IS_PRESSED){
+			servo[scoop]  = 0;
+		}
+		else if(joy2Btn(TURBO_BUTT)== 0 && joy2Btn(5) == 0){
+			servo[scoop] = 128;
+		}
 
 	}
 }
