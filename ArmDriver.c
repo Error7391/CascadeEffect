@@ -4,11 +4,13 @@
  * - TArmState stores the physical characteristics of the arm
  * - Position is 1 of 5 values (0 - 0 cm, 1 - 30 cm, 2 - 60 cm, 3 - 90 cm, 4 - 120 cm)
  */
-typedef struct {
+	typedef struct {
 	int liftLowZero;
 	int liftHighZero;
 	int shoulderZero;
 	int elbowZero;
+	int distance;
+	int position;
 } TArmState;
 
 #define MAX_POSITIONS 5
@@ -87,6 +89,7 @@ void armInit(TArmState& tasr) {
 	servo[elbow] = tasr.elbowZero;
 }
 
+
 // Moves the arm so it is at a specified angle, 1 to 180 degrees
 void setArmAngle(TArmState& tasr, int angle) {
 	if (angle >= 0 && angle <= 180) {
@@ -107,11 +110,14 @@ void setShoulderHeight(TArmState& tasr, float inches) {
 	}
 }
 
+
 // Main routine set the height of the end of the arm to 1 of 5 presets at a given distance from the robot
 void setPosition (TArmState& tasr, int p, float distance) {
 	writeDebugStreamLine("Position = %d",p);
 	writeDebugStreamLine("Distance = %d",distance);
 	writeDebugStreamLine("maxD = %d",positions[p].maxD);
+	tasr.distance = distance;
+	tasr.position = p;
 
 	float d;
 	if (p == 0) {
@@ -153,5 +159,17 @@ void setPosition (TArmState& tasr, int p, float distance) {
 		//Make it so
 		setShoulderHeight(tasr, shoulderHeight);
 		setArmAngle(tasr, angle);
+	}
+}
+
+void incDistance (TArmState& tasr) {
+	if (tasr.distance + 0.1 <= positions[tasr.position].maxD) {
+		setPosition (tasr,tasr.position,tasr.distance + 0.1);
+	}
+}
+
+void decDistance (TArmState& tasr) {
+	if (tasr.distance - 0.1 >= 0) {
+		setPosition (tasr,tasr.position,tasr.distance - 0.1);
 	}
 }
