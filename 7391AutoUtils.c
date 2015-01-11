@@ -103,7 +103,7 @@ void goDownRamp ()
 	nxtDisplayTextLine(1, "here 1" );
 	//nxtDisplayTextLine(2, "%d", distance_traveled);
 	//while (nNxtButtonPressed != kLeftButton){}
-	moveInches(40,30);
+	moveInches(40);
 
 
 

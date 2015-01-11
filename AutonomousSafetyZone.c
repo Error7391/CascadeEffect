@@ -85,8 +85,9 @@ void initializeRobot()
 	nPidUpdateInterval = 20;
 
 
-	armInit(tas);
 	driveInit();
+	armInit(tas);
+
 	wait1Msec(10);
 
 	return;
@@ -121,38 +122,60 @@ void initializeRobot()
 
 task main()
 {
-	writeDebugStreamLine("initalizing");
-	initializeRobot();
-	writeDebugStreamLine("initalized");
 	int irValue;
+
+	writeDebugStreamLine("initalizing");
+
+	initializeRobot();
+		setPosition (tas, POS_AT_30CM, 5);
+
+	writeDebugStreamLine("initalized");
 	while (nNxtButtonPressed != kEnterButton){}
 	writeDebugStreamLine("move 24 inches");
-	moveInches(24, 30);
-	writeDebugStreamLine("moved");
+	moveInches(24);
 	while (nNxtButtonPressed != kEnterButton){}
-	turnDegrees(90);
+	writeDebugStreamLine("move 24 inches");
+	moveInches(24);
+	while (nNxtButtonPressed != kEnterButton){}
+
+	writeDebugStreamLine("moved");
+
+
+
+	while (nNxtButtonPressed != kEnterButton){}
+	rotateDegrees(90);
 	writeDebugStreamLine("turned");
+
+		while (nNxtButtonPressed != kEnterButton){}
+	rotateDegrees(90);
+	writeDebugStreamLine("turned");
+	while (nNxtButtonPressed != kEnterButton){}
+	rotateDegrees(90);
+	writeDebugStreamLine("turned");
+	while (nNxtButtonPressed != kEnterButton){}
+	rotateDegrees(90);
+	writeDebugStreamLine("turned");
+
 	while (nNxtButtonPressed != kEnterButton){}
 	irValue = getBeaconVal(0);
 	while (nNxtButtonPressed != kEnterButton){}
 	if(irValue==7){
 		turnDegrees(-90);
 		while (nNxtButtonPressed != kEnterButton){}
-		moveInches(18, 30);
+		moveInches(18);
 		while (nNxtButtonPressed != kEnterButton){}
-		moveInches(20, 30);
+		moveInches(20);
 	}
 
 	else if(irValue==2 || irValue==3){
 		turnDegrees(-45);
 		while (nNxtButtonPressed != kEnterButton){}
-		moveInches(17, 30);
+		moveInches(17);
 	}
 
 	else if(irValue==5){
-		moveInches(10, 30);
+		moveInches(10);
 		while (nNxtButtonPressed != kEnterButton){}
 		turnDegrees(90);
 	}
-
 }
