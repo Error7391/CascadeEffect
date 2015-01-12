@@ -122,7 +122,7 @@ void initializeRobot()
 
 task main()
 {
-	int irValue;
+int irValue;
 
 	writeDebugStreamLine("initalizing");
 
@@ -131,51 +131,69 @@ task main()
 
 	writeDebugStreamLine("initalized");
 	while (nNxtButtonPressed != kEnterButton){}
-	writeDebugStreamLine("move 24 inches");
-	moveInches(24);
-	while (nNxtButtonPressed != kEnterButton){}
-	writeDebugStreamLine("move 24 inches");
-	moveInches(24);
-	while (nNxtButtonPressed != kEnterButton){}
 
-	writeDebugStreamLine("moved");
-
-
-
-	while (nNxtButtonPressed != kEnterButton){}
-	rotateDegrees(90);
-	writeDebugStreamLine("turned");
-
-		while (nNxtButtonPressed != kEnterButton){}
-	rotateDegrees(90);
-	writeDebugStreamLine("turned");
-	while (nNxtButtonPressed != kEnterButton){}
-	rotateDegrees(90);
-	writeDebugStreamLine("turned");
-	while (nNxtButtonPressed != kEnterButton){}
-	rotateDegrees(90);
-	writeDebugStreamLine("turned");
+	writeDebugStreamLine("initalized");
+	moveInches(43);
 
 	while (nNxtButtonPressed != kEnterButton){}
 	irValue = getBeaconVal(0);
-	while (nNxtButtonPressed != kEnterButton){}
-	if(irValue==7){
-		turnDegrees(-90);
-		while (nNxtButtonPressed != kEnterButton){}
-		moveInches(18);
-		while (nNxtButtonPressed != kEnterButton){}
-		moveInches(20);
+	if(irValue==8){
+		writeDebugStreamLine("ir=8");
 	}
-
-	else if(irValue==2 || irValue==3){
-		turnDegrees(-45);
-		while (nNxtButtonPressed != kEnterButton){}
-		moveInches(17);
-	}
-
-	else if(irValue==5){
-		moveInches(10);
-		while (nNxtButtonPressed != kEnterButton){}
-		turnDegrees(90);
+	else{
+		moveInches(12);
+		if(irValue==8){
+			turnDegrees(-90):
+		}
+		else{
+		}
 	}
 }
+//		writeDebugStreamLine("move 24 inches");
+//	moveInches(24);
+//	while (nNxtButtonPressed != kEnterButton){}
+//	writeDebugStreamLine("move 24 inches");
+//	moveInches(24);
+//	while (nNxtButtonPressed != kEnterButton){}
+
+//	writeDebugStreamLine("moved");
+
+
+
+//	while (nNxtButtonPressed != kEnterButton){}
+//	rotateDegrees(90);
+//	writeDebugStreamLine("turned");
+
+//		while (nNxtButtonPressed != kEnterButton){}
+//	rotateDegrees(90);
+//	writeDebugStreamLine("turned");
+//	while (nNxtButtonPressed != kEnterButton){}
+//	rotateDegrees(90);
+//	writeDebugStreamLine("turned");
+//	while (nNxtButtonPressed != kEnterButton){}
+//	rotateDegrees(90);
+//	writeDebugStreamLine("turned");
+
+//	while (nNxtButtonPressed != kEnterButton){}
+//	irValue = getBeaconVal(0);
+//	while (nNxtButtonPressed != kEnterButton){}
+//	if(irValue==7){
+//		turnDegrees(-90);
+//		while (nNxtButtonPressed != kEnterButton){}
+//		moveInches(18);
+//		while (nNxtButtonPressed != kEnterButton){}
+//		moveInches(20);
+//	}
+
+//	else if(irValue==2 || irValue==3){
+//		turnDegrees(-45);
+//		while (nNxtButtonPressed != kEnterButton){}
+//		moveInches(17);
+//	}
+
+//	else if(irValue==5){
+//		moveInches(10);
+//		while (nNxtButtonPressed != kEnterButton){}
+//		turnDegrees(90);
+//	}
+//}
