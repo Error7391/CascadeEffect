@@ -88,7 +88,7 @@ int shoulderRatio(int angle) {
 	// on the gears and causes some sag. We apply a factor calculated from
 	// the sine of the angle; the formula for torque due to gravity applied
 	// to a fixed corrective factor... whee!
-	return angle * -15 / 45 - sinDegrees(angle) * 8;
+	return angle * -15 / 45 - sinDegrees(angle) * 15;
 }
 
 // Calculates the servo settings for the elbow given an angle in degrees
@@ -98,7 +98,7 @@ int elbowRatio(int angle) {
 
 // Calculates the servo setting given the amount of lift in inches
 int liftRatio(float height) {
-	return height * -180 / 28;
+	return height * -180 / 30;
 }
 
 // Sets up the TArmState control block and initializes the positions array
@@ -163,9 +163,13 @@ void setArmAngle(TArmState& tasr, int angle) {
 
 // Moves the lift so the height of the shoulder is at a specified height in inches
 void setShoulderHeight(TArmState& tasr, float inches) {
+	const int MIN_SERVO = 40;
+	int servoHigh, servoLow;
 	if (inches >= 0 && inches <= 28) {
-		servo[liftLow] = tasr.liftLowZero + liftRatio(inches);
-		servo[liftHigh] = tasr.liftHighZero + liftRatio(inches);
+		servoLow = tasr.liftLowZero + liftRatio(inches);
+	servo[liftLow] = (servoLow < MIN_SERVO) ? MIN_SERVO : servoLow;
+		servoHigh = tasr.liftHighZero + liftRatio(inches);
+	servo[liftHigh] = (servoHigh < MIN_SERVO) ? MIN_SERVO : servoHigh;
 		} else {
 		// TODO - Indicate error state somehow
 	}
@@ -184,11 +188,11 @@ void setPosition (TArmState& tasr, int p, float distance) {
 	if (p == 0) {
 		setShoulderHeight(tasr,0);
 		setArmAngle(tasr,0);
-		} else if (p == 5) {
+	} else if (p == 5) {
 		setShoulderHeight(tasr,4);
 		setArmAngle(tasr,0);
 		servo[elbow] = tasr.elbowZero + elbowRatio(90);
-		} else {
+	} else {
 		if (distance < 0) {
 			d = 0;
 			} else if (distance > positions[p].maxD) {
@@ -214,10 +218,12 @@ void setPosition (TArmState& tasr, int p, float distance) {
 				//Invert the angle from 180 degrees
 				angle = 180 - radiansToDegrees(angle);
 				b = -b;
+			} else {
+				angle = radiansToDegrees(angle);
 			}
-			float shoulderHeight = targetHeight + b - 16;
+			float shoulderHeight = targetHeight + b - 13;
 
-			writeDebugStreamLine("Target angle after adjustment = %f",angle);
+			writeDebugStreamLine("Target angle after adjustment = %f, %f",angle, degreesToRadians(angle));
 			writeDebugStreamLine("Target adjustment = %f",b);
 			writeDebugStreamLine("Target shoulder height = %f",shoulderHeight);
 

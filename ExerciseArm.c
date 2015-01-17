@@ -28,14 +28,14 @@ task main()
 
 	while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
 	writeDebugStreamLine("=====================");
-	writeDebugStreamLine("Setting pos 4 @ 12 in");
-	setPosition(tas,4,12);
+	writeDebugStreamLine("Setting pos 1 @ 8.5 in");
+	setPosition(tas,4,8.5);
 	wait1Msec(1000);
 
 	while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
 	writeDebugStreamLine("=====================");
-	writeDebugStreamLine("Setting pos 4 @ 0 in");
-	setPosition(tas,4,2);
+	writeDebugStreamLine("Setting pos 1 @ 4 in");
+	setPosition(tas,4,6);
 	wait1Msec(1000);
 
 	while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
