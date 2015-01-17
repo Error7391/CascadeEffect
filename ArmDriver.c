@@ -4,6 +4,19 @@
 * - TArmState stores the physical characteristics of the arm
 * - Position is 1 of 5 values (0 - 0 cm, 1 - 30 cm, 2 - 60 cm, 3 - 90 cm, 4 - 120 cm)
 */
+enum collectorState
+{
+	COLLECTOR_IDLE = 128,
+	COLLECTOR_IN = 255,
+	COLLECTOR_OUT = 0
+};
+
+enum trapDoorState
+{
+	TRAP_DOOR_CLOSED = 192,
+	TRAP_DOOR_OPEN = 255
+};
+
 typedef struct {
 	int liftLowZero;
 	int liftHighZero;
@@ -29,7 +42,45 @@ const int POS_BALL_COLLECTING = 5;
 
 TArmPosition positions[MAX_POSITIONS];
 
+enum collectorState
+{
+	COLLECTOR_IDLE = 128,
+	COLLECTOR_IN = 255,
+	COLLECTOR_OUT = 0
+};
+
+enum trapDoorState
+{
+	TRAP_DOOR_CLOSED = 192,
+	TRAP_DOOR_OPEN = 255
+};
+
 const float hyp = 14;
+
+void collectorStop()
+{
+	servo[collector] = COLLECTOR_IDLE;
+}
+
+void collectorIn()
+{
+	servo[collector] = COLLECTOR_IN;
+}
+
+void collectorOut()
+{
+	servo[collector] = COLLECTOR_OUT;
+}
+
+void trapDoorClose()
+{
+	servo[trapDoor] = TRAP_DOOR_CLOSED;
+}
+
+void trapDoorOpen()
+{
+	servo[trapDoor] = TRAP_DOOR_OPEN;
+}
 
 // Calculates the servo setting for the shoulder given an angle in degrees
 int shoulderRatio(int angle) {
