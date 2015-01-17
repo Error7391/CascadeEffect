@@ -42,19 +42,6 @@ const int POS_BALL_COLLECTING = 5;
 
 TArmPosition positions[MAX_POSITIONS];
 
-enum collectorState
-{
-	COLLECTOR_IDLE = 128,
-	COLLECTOR_IN = 255,
-	COLLECTOR_OUT = 0
-};
-
-enum trapDoorState
-{
-	TRAP_DOOR_CLOSED = 192,
-	TRAP_DOOR_OPEN = 255
-};
-
 const float hyp = 14;
 
 void collectorStop()
@@ -148,6 +135,9 @@ void armInit(TArmState& tasr) {
 	servo[liftHigh] = tasr.liftHighZero;
 	servo[shoulder] = tasr.shoulderZero;
 	servo[elbow] = tasr.elbowZero;
+
+	servo[collector] = COLLECTOR_IDLE;
+	servo[trapDoor] = TRAP_DOOR_CLOSED;
 }
 
 
