@@ -145,7 +145,7 @@ task main()
 						break;
 					case kRightButton:
 						setPosition(tas, POS_BALL_COLLECTING, ARM_DIST_FROM_ROBOT_DEFAULT);
-						trapDoorClose();
+						trapDoorCl2ose();
 						collectorIn();
 
   					while (nNxtButtonPressed != kEnterButton){}

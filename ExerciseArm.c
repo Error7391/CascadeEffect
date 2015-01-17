@@ -16,6 +16,8 @@
 
 TArmState tas;
 
+const int DefaultDistance = 6.5;
+
 task main()
 {
 	armInit(tas);
@@ -25,23 +27,70 @@ task main()
 	// Change the second argument to different postions (1-3) to test other heights
 	// ======================================================================================
 
-	while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
-	writeDebugStreamLine("=====================");
-	writeDebugStreamLine("Setting pos 1 @ 8.5 in");
-	setPosition(tas,4,8.5);
-	wait1Msec(1000);
+	//while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
+	//writeDebugStreamLine("=====================");
+	//writeDebugStreamLine("Setting pos 1 @ 8.5 in");
+	//setPosition(tas,4,8.5);
+	//wait1Msec(1000);
 
-	while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
-	writeDebugStreamLine("=====================");
-	writeDebugStreamLine("Setting pos 1 @ 4 in");
-	setPosition(tas,4,6);
-	wait1Msec(1000);
+	//while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
+	//writeDebugStreamLine("=====================");
+	//writeDebugStreamLine("Setting pos 1 @ 4 in");
+	//setPosition(tas,4,6);
+	//wait1Msec(1000);
 
-	while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
-	writeDebugStreamLine("=====================");
-	writeDebugStreamLine("Setting pos 0");
-	setPosition(tas,0,0);
-	wait1Msec(1000);
+	//while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
+	//writeDebugStreamLine("=====================");
+	//writeDebugStreamLine("Setting pos 0");
+	//setPosition(tas,0,0);
+	//wait1Msec(1000);
 
-	while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
+	//while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
+	int oldButton = kNoButton;
+	int Button = kNoButton;
+	while(1)
+	{
+		Button = nNxtButtonPressed;
+		if (Button != oldButton)
+		{
+			switch (Button)
+			{
+			case kLeftButton:
+				setPosition(tas, POS_BALL_COLLECTING, DefaultDistance);
+				trapDoorClose();
+				collectorIn();
+
+				//while (nNxtButtonPressed != kRightButton){}
+				wait1Msec(5000);
+				collectorStop();
+				setPosition(tas, POS_AT_120CM, DefaultDistance);
+				trapDoorOpen();
+
+
+				//moveInches(40);
+
+				break;
+			case kEnterButton:
+				setPosition(tas, POS_AT_30CM, DefaultDistance);
+
+				break;
+			case kRightButton:
+				setPosition(tas, POS_BALL_COLLECTING, DefaultDistance);
+				trapDoorClose();
+				collectorIn();
+
+				while (nNxtButtonPressed != kLeftButton){}
+				setPosition(tas, POS_AT_30CM, DefaultDistance);
+				trapDoorOpen();
+				break;
+			default:
+				Button = kNoButton;
+				break;
+			}
+			oldButton = Button;
+
+		}
+	}
+
+
 }
