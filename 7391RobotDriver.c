@@ -4,7 +4,7 @@ void driveInit();
 
 void moveInches(float distance/*inches*/);
 void rotateDegrees(float degrees);
-void pivotDegrees(float degrees);
+//void pivotDegrees(float degrees);  //Not Updated
 float ticks2inches(float ticks);
 float inches2ticks(float inches, int distance);
 
@@ -30,8 +30,11 @@ void driveInit(){
 	motor[motorR] = 0;
 	motor[motorL] = 0;
 
+	//nPidUpdateInterval = 20;
+
 
 	nxtDisplayTextLine(4, "driveInit");
+	writeDebugStreamLine("driveInit");
 
 }
 
@@ -91,75 +94,75 @@ float inches2ticks(float inches, int distance){
 
 
 
-void pivotDegrees(float degrees, int speed, bool dir )
-{
-	int lastEncoderL = -1;
-	int currEncoderL = 0;
-	int ticks = 3200*degrees/90;
+//void pivotDegrees(float degrees, int speed, bool dir )
+//{
+//	int lastEncoderL = -1;
+//	int currEncoderL = 0;
+//	int ticks = 3200*degrees/90;
 
-	nMotorEncoder[motorR] = 0;
-	nMotorEncoder[motorL] = 0;
+//	nMotorEncoder[motorR] = 0;
+//	nMotorEncoder[motorL] = 0;
 
 
-	if(degrees > 0 && dir == FORWARD){
-		nMotorEncoderTarget[motorR] = ticks;
-		motor[motorR] = speed;
-		motor[motorL] = 0;
-		while(nMotorRunState[motorR] != runStateIdle)
-		{
-			//currEncoderL =	nMotorEncoder[motorL];
-			//if (lastEncoderL < currEncoderL + 10){
-			//	break;
-			//}
-			//lastEncoderL = currEncoderL;
-		}
+//	if(degrees > 0 && dir == FORWARD){
+//		nMotorEncoderTarget[motorR] = ticks;
+//		motor[motorR] = speed;
+//		motor[motorL] = 0;
+//		while(nMotorRunState[motorR] != runStateIdle)
+//		{
+//			//currEncoderL =	nMotorEncoder[motorL];
+//			//if (lastEncoderL < currEncoderL + 10){
+//			//	break;
+//			//}
+//			//lastEncoderL = currEncoderL;
+//		}
 
-	}//endif
-	else if(degrees < 0 && dir == BACKWARD){
-		nMotorEncoderTarget[motorR] = -ticks;
-		motor[motorR] = -speed;
-		motor[motorL] = 0;
-		while(nMotorRunState[motorR] != runStateIdle)
-		{
-			//currEncoderL =	nMotorEncoder[motorL];
-			//if (lastEncoderL < currEncoderL + 10){
-			//	break;
-			//}
-			//lastEncoderL = currEncoderL;
-		}
-	}//endif
+//	}//endif
+//	else if(degrees < 0 && dir == BACKWARD){
+//		nMotorEncoderTarget[motorR] = -ticks;
+//		motor[motorR] = -speed;
+//		motor[motorL] = 0;
+//		while(nMotorRunState[motorR] != runStateIdle)
+//		{
+//			//currEncoderL =	nMotorEncoder[motorL];
+//			//if (lastEncoderL < currEncoderL + 10){
+//			//	break;
+//			//}
+//			//lastEncoderL = currEncoderL;
+//		}
+//	}//endif
 
-	else if(degrees < 0 && dir == FORWARD){
-		nMotorEncoderTarget[motorL] = ticks;
-		motor[motorR] = 0;
-		motor[motorL] = speed;
-		while(nMotorRunState[motorL] != runStateIdle)
-		{
-			//currEncoderL =	nMotorEncoder[motorL];
-			//if (lastEncoderL < currEncoderL + 10){
-			//	break;
-			//}
-			//lastEncoderL = currEncoderL;
-		}
+//	else if(degrees < 0 && dir == FORWARD){
+//		nMotorEncoderTarget[motorL] = ticks;
+//		motor[motorR] = 0;
+//		motor[motorL] = speed;
+//		while(nMotorRunState[motorL] != runStateIdle)
+//		{
+//			//currEncoderL =	nMotorEncoder[motorL];
+//			//if (lastEncoderL < currEncoderL + 10){
+//			//	break;
+//			//}
+//			//lastEncoderL = currEncoderL;
+//		}
 
-	}
-	else if(degrees > 0 && dir == BACKWARD){
-		nMotorEncoderTarget[motorL] = -ticks;
-		motor[motorR] = 0;
-		motor[motorL] = -speed;
-		while(nMotorRunState[motorL] != runStateIdle)
-		{
-			//currEncoderL =	nMotorEncoder[motorL];
-			//if (lastEncoderL < currEncoderL + 10){
-			//	break;
-			//}
-			//lastEncoderL = currEncoderL;
-		}
+//	}
+//	else if(degrees > 0 && dir == BACKWARD){
+//		nMotorEncoderTarget[motorL] = -ticks;
+//		motor[motorR] = 0;
+//		motor[motorL] = -speed;
+//		while(nMotorRunState[motorL] != runStateIdle)
+//		{
+//			//currEncoderL =	nMotorEncoder[motorL];
+//			//if (lastEncoderL < currEncoderL + 10){
+//			//	break;
+//			//}
+//			//lastEncoderL = currEncoderL;
+//		}
 
-	}
-	motor[motorR] = 0;
-	motor[motorL] = 0;
-}
+//	}
+//	motor[motorR] = 0;
+//	motor[motorL] = 0;
+//}
 
 
 

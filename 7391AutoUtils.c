@@ -49,8 +49,7 @@ void findColor(int color)
 
 		nxtDisplayTextLine(4, "raw:%d color1%d color2%d", nRawValue, color1, color2);
 		//getColorSensorData(colorPort, colorRaw,    &nRawValues[0]);
-		sprintf(sOutput, "raw:%d color1%d color2%d\n", nRawValue, color1, color2);
-		WriteText(hFileHandle, nIoResult, sOutput);
+		writeDebugStreamLine("raw:%d color1%d color2%d\n", nRawValue, color1, color2);
 	}
 
 	motor[motorR] = 0;
@@ -82,8 +81,7 @@ int getBeaconVal(int irGoal)
 		eraseDisplay();
 		nxtDisplayTextLine(4, "irValue %d", irValue);
 		//getColorSensorData(colorPort, colorRaw,    &nRawValues[0]);
-		sprintf(sOutput, "irValue%d\n", irValue);
-		WriteText(hFileHandle, nIoResult, sOutput);
+		writeDebugStreamLine( "irValue%d\n", irValue);
 	//}
 
 	return(irValue);
