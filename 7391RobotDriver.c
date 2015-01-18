@@ -27,10 +27,11 @@ float inches2ticks(float inches, int distance);
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 void driveInit(){
-	motor[motorR] = 0;
-	motor[motorL] = 0;
+	//motor[motorR] = 0;
+	//motor[motorL] = 0;
 
-	//nPidUpdateInterval = 20;
+	//nPidUpdate
+//Interval = 20;
 
 
 	nxtDisplayTextLine(4, "driveInit");
@@ -62,14 +63,14 @@ void moveInches(float distance)
 
 	writeDebugStreamLine("move %f inches", distance);
 	if(distance > 0){
-		motor[motorR] = power;
-		motor[motorL] = power;
+		motor[motorR] = 30;
+		motor[motorL] = 30;
 	}
 	else{
-		motor[motorR] = -power;
-		motor[motorL] = -power;
+		motor[motorR] = -30;
+		motor[motorL] = -30;
 	}
-
+	writeDebugStreamLine("power is 30);
 	wait1Msec(44.5*distance);
 
 	motor[motorR] = 0;

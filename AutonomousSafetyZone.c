@@ -176,35 +176,49 @@ task main()
 	}
 	else{
 		moveInches(12);
-		irValue = getBeaconVal(0);
-		if(irValue==8){
-			writeDebugStreamLine("CENTER_GOAL_POS2_45DEG");
-			while (nNxtButtonPressed != kEnterButton){}
-			rotateDegrees(-90):
-			writeDebugStreamLine("ir=8");
-		}
-		else{
-			writeDebugStreamLine("CENTER_GOAL_POS3_90DEG");
+			writeDebugStreamLine("CENTER_GOAL_POS 3 or 2_90DEG?????");
 			while (nNxtButtonPressed != kEnterButton){}
 			moveInches(-20);
-			while (nNxtButtonPressed != kEnterButton){}
+			while (nNxtButtonPressed != kLeftButton){}
 			rotateDegrees(30);
 			while (nNxtButtonPressed != kEnterButton){}
 			moveInches(-10);
-			while (nNxtButtonPressed != kEnterButton){}
+			while (nNxtButtonPressed != kLeftButton){}
 			rotateDegrees(-30);
 			while (nNxtButtonPressed != kEnterButton){}
 			moveInches(-20);
-			while (nNxtButtonPressed != kEnterButton){}
+			while (nNxtButtonPressed != kLeftButton){}
 			setPosition(tas, POS_AT_120CM, DEFAULT_DISTANCE);
-			wait1Msec(5000);
+		//	wait1Msec(5000);
 			while (nNxtButtonPressed != kEnterButton){}
 			moveInches(30);
+			irValue = getBeaconVal(0);
+		if(irValue==8 || irValue == 9){
+			writeDebugStreamLine("CENTER_GOAL_POS3_90DEG");
 			wait1Msec(5000);
-			while (nNxtButtonPressed != kEnterButton){}
+			while (nNxtButtonPressed != kLeftButton){}
 			trapDoorOpen();
-
 		}
+		else{
+			writeDebugStreamLine("CENTER_GOAL_POS2_45DEG");
+			while (nNxtButtonPressed != kEnterButton){}
+			moveInches(-12);
+			while (nNxtButtonPressed != kLeftButton){}
+			rotateDegrees(-45);
+			while (nNxtButtonPressed != kEnterButton){}
+			moveInches(17);
+			while (nNxtButtonPressed != kLeftButton){}
+			rotateDegrees(45);
+			while (nNxtButtonPressed != kEnterButton){}
+			moveInches(8);
+			while (nNxtButtonPressed != kLeftButton){}
+			writeDebugStreamLine("irValue=8");
+
+			wait1Msec(5000);
+			while (nNxtButtonPressed != kLeftButton){}
+			trapDoorOpen();
+		}
+
 	}
 
 #endif
