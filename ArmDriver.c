@@ -13,7 +13,7 @@ enum collectorState
 
 enum trapDoorState
 {
-	TRAP_DOOR_CLOSED = 192,
+	TRAP_DOOR_CLOSED = 167,
 	TRAP_DOOR_OPEN = 255
 };
 
@@ -32,13 +32,14 @@ typedef struct {
 	float height;
 } TArmPosition;
 
-const int MAX_POSITIONS = 6;
+const int MAX_POSITIONS = 7;
 const int POS_HOME = 0;
 const int POS_AT_30CM = 1;
 const int POS_AT_60CM = 2;
 const int POS_AT_90CM = 3;
 const int POS_AT_120CM = 4;
 const int POS_BALL_COLLECTING = 5;
+const int POS_DRIVE = 6;
 const float DEFAULT_DISTANCE = 6.5;
 
 TArmPosition positions[MAX_POSITIONS];
@@ -113,7 +114,11 @@ void armInit(TArmState& tasr) {
 
 	positions[5].shoulderOver = true;
 	positions[5].maxD = 0;
-	positions[5].height = 4;
+	positions[5].height = 7;
+
+	positions[6].shoulderOver = true;
+	positions[6].maxD = 2;
+	positions[6].height = 4;
 
 	servoChangeRate[shoulder] = 20;
 	servoChangeRate[elbow] = 1;
@@ -179,8 +184,9 @@ void setPosition (TArmState& tasr, int p, float distance) {
 	if (p == 0) {
 		setShoulderHeight(tasr,0);
 		setArmAngle(tasr,0);
-	} else if (p == 5) {
+	} else if (p == POS_BALL_COLLECTING) {
 		setShoulderHeight(tasr,4);
+		servo[liftLow] = servo[liftLow]-21;		//set to 155. Fix Better Later
 		setArmAngle(tasr,0);
 		servo[elbow] = tasr.elbowZero + elbowRatio(90);
 	} else {
@@ -191,7 +197,7 @@ void setPosition (TArmState& tasr, int p, float distance) {
 			}	else {
 			d = distance;
 		}
-		if (p < 5) {
+		if (p != POS_BALL_COLLECTING) {
 			writeDebugStreamLine("D = %f",d);
 			writeDebugStreamLine("Position.height = %f",positions[p].height);
 
