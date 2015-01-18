@@ -44,9 +44,9 @@ void driveInit(){
 //                                        TurnDegrees
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-void turnDegrees(int degrees){
+//void turnDegrees(int degrees){
 
-}
+//}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +59,8 @@ void moveInches(float distance)
 {
 	const int power = 30;
 	int ticks = 65*1440/(DRIVE_DIAMETER*PI)*distance;
+
+	writeDebugStreamLine("move %f inches", distance);
 	if(distance > 0){
 		motor[motorR] = power;
 		motor[motorL] = power;
@@ -67,6 +69,7 @@ void moveInches(float distance)
 		motor[motorR] = -power;
 		motor[motorL] = -power;
 	}
+
 	wait1Msec(44.5*distance);
 
 	motor[motorR] = 0;
@@ -181,6 +184,7 @@ void rotateDegrees(float degrees)
 {
 	int ticks = 0;
 
+	writeDebugStreamLine("rotateDegrees %f degrees", degrees);
 	if (degrees > 0)
 	{
 		ticks = 3050*degrees/(90*2);//half of ticks because of rotation

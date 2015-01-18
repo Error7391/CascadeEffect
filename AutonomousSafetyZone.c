@@ -177,7 +177,7 @@ task main()
 	else{
 		moveInches(12);
 		if(irValue==8){
-			turnDegrees(-90):
+			rotateDegrees(-90):
 		}
 		else{
 		}
