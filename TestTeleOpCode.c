@@ -5,8 +5,8 @@
 #pragma config(Sensor, S4,     irSeeker,       sensorHiTechnicIRSeeker1200)
 #pragma config(Motor,  motorB,          grabL,         tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  motorC,          grabR,         tmotorNXT, PIDControl, encoder)
-#pragma config(Motor,  mtr_S1_C1_1,     motorL,        tmotorTetrix, PIDControl, encoder)
-#pragma config(Motor,  mtr_S1_C1_2,     motorR,        tmotorTetrix, PIDControl, encoder)
+#pragma config(Motor,  mtr_S1_C1_1,     motorL,        tmotorTetrix, openLoop, reversed)
+#pragma config(Motor,  mtr_S1_C1_2,     motorR,        tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S1_C2_1,    liftLow,              tServoStandard)
 #pragma config(Servo,  srvo_S1_C2_2,    liftHigh,             tServoStandard)
 #pragma config(Servo,  srvo_S1_C2_3,    shoulder,             tServoStandard)
@@ -47,6 +47,8 @@ TArmState tas;
 
 void initializeRobot()
 {
+	motor[motorR] = 0;
+	motor[motorL] = 0;
 	armInit(tas);// Place code here to initialize servos to starting positions.
 	wait10Msec(500);
 	// Sensors are automatically configured and setup by ROBOTC. They may need a brief time to stabilize.
@@ -81,7 +83,7 @@ void initializeRobot()
 // At the end of the tele-op period, the FMS will autonmatically abort (stop) execution of the program.
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const int LOW_MOTOR_THRESH = 10;
+const int LOW_MOTOR_THRESH = 15;
 const int TURBO_BUTT  = 6;
 const int  X_BUTT  = 1;
 const int B_BUTT  = 3;
@@ -103,59 +105,53 @@ task main()
 	while (true)
 
 	{
-		motor[motorL] = 30;
-		motor[motorR] = 30;
+		//motor[motorL] = 30;
+		//motor[motorR] = 30;
 		if(joy1Btn(TURBO_BUTT) == IS_PRESSED){
-			joystick2Move(100);
+			joystick2Move(40);
 		}
 		else{
-			joystick2Move(30);
+			joystick2Move(15);
+		}
+		if(joy2Btn(9)==IS_PRESSED){
+			setPosition(tas, 0 ,0);
 		}
 		if(joy2Btn(A_BUTT) == IS_PRESSED){
-			int distance = 0;
-			setPosition(tas, 1, distance);
+			setPosition(tas, 1, 5);
 			if(joystick.joy1_TopHat == 0){
-				distance++;
-				setPosition(tas, 1, distance);
+				incDistance(tas);
 			}
 			else if(joystick.joy1_TopHat == 4){
-				distance--;
-				setPosition(tas, 1, distance);
+				decDistance(tas);
 			}
 		}
 		else if(joy2Btn(B_BUTT) == IS_PRESSED){
-			setPosition(tas, 2, 0);
+			setPosition(tas, 2, 5);
 			if(joystick.joy1_TopHat == 0){
 				incDistance(tas);
 				//setPosition(tas, 2, distance);
 			}
 			else if(joystick.joy1_TopHat == 4){
-				incDistance(tas);
+				decDistance(tas);
 				//setPosition(tas, 2, distance);
 			}
 		}
 		else if(joy2Btn(X_BUTT) == IS_PRESSED){
-			int distance = 0;
-			setPosition(tas, 3, distance);
+			setPosition(tas, 3, 5);
 			if(joystick.joy1_TopHat == 0){
-				distance++;
-				setPosition(tas, 3, distance);
+				incDistance(tas);
 			}
 			else if(joystick.joy1_TopHat == 4){
-				distance--;
-				setPosition(tas, 3, distance);
+				decDistance(tas);
 			}
 		}
 		else if(joy2Btn(Y_BUTT) == IS_PRESSED){
-			int distance = 0;
-			setPosition(tas, 4, distance);
+			setPosition(tas, 4, 5);
 			if(joystick.joy1_TopHat == 0){
-				distance++;
-				setPosition(tas, 4, distance);
+				incDistance(tas);
 			}
 			else if(joystick.joy1_TopHat == 4){
-				distance--;
-				setPosition(tas, 4, distance);
+				decDistance(tas);
 			}
 		}
 		if(joy2Btn(TURBO_BUTT)==IS_PRESSED){
@@ -177,44 +173,44 @@ void joystick2Move(int powerThresh){
 		motor[motorR] = 0;
 	}
 	else if(joystick.joy1_y1>LOW_MOTOR_THRESH){
-		motor[motorL] = (joystick.joy1_y1*powerThresh)/127;
-		motor[motorR] = (joystick.joy1_y1*powerThresh)/127;
+		//motor[motorL] = (joystick.joy1_y1*powerThresh)/127;
+		//motor[motorR] = (joystick.joy1_y1*powerThresh)/127;
 		if(abs(joystick.joy1_x2) < LOW_MOTOR_THRESH){
 			motor[motorR] = (joystick.joy1_y1*powerThresh)/127;
 			motor[motorL] = (joystick.joy1_y1*powerThresh)/127;
 		}
 		else if(joystick.joy1_x2 > LOW_MOTOR_THRESH){
-			motor[motorR] = ((joystick.joy1_y1-joystick.joy1_x2)*powerThresh)/127;
-			motor[motorL] = (joystick.joy1_y1*powerThresh)/127;
+			motor[motorL] = ((joystick.joy1_y1-joystick.joy1_x2)*75)/127;
+			motor[motorR] = (joystick.joy1_y1*75)/127;
 		}
-		else if(joystick.joy1_x2 < LOW_MOTOR_THRESH){
-			motor[motorL] = ((joystick.joy1_y1+joystick.joy1_x2)*powerThresh)/127;
-			motor[motorR] = (joystick.joy1_y1*powerThresh)/127;
+		else if(joystick.joy1_x2 < -LOW_MOTOR_THRESH){
+			motor[motorR] = ((joystick.joy1_y1+joystick.joy1_x2)*75)/127;
+			motor[motorL] = (joystick.joy1_y1*75)/127;
 		}
 	}
 
 	else if(joystick.joy1_y1< -LOW_MOTOR_THRESH){
-		motor[motorL] = (joystick.joy1_y1*powerThresh)/127;
-		motor[motorR] = (joystick.joy1_y1*powerThresh)/127;
+	//	motor[motorL] = (joystick.joy1_y1*powerThresh)/127;
+		//motor[motorR] = (joystick.joy1_y1*powerThresh)/127;
 		if(abs(joystick.joy1_x2) < LOW_MOTOR_THRESH){
-			motor[motorR] = (joystick.joy1_y1*powerThresh)/127;
 			motor[motorL] = (joystick.joy1_y1*powerThresh)/127;
+			motor[motorR] = (joystick.joy1_y1*powerThresh)/127;
 		}
 		else if(joystick.joy1_x2 > LOW_MOTOR_THRESH){
-			motor[motorR] = ((joystick.joy1_y1+joystick.joy1_x2)*powerThresh)/127;
-			motor[motorL] = (joystick.joy1_y1*powerThresh)/127;
+			motor[motorL] = ((joystick.joy1_y1+joystick.joy1_x2)*75)/127;
+			motor[motorR] = (joystick.joy1_y1*75)/127;
 		}
-		else if(joystick.joy1_x2 < LOW_MOTOR_THRESH){
-			motor[motorL] = ((joystick.joy1_y1-joystick.joy1_x2)*powerThresh)/127;
-			motor[motorR] = (joystick.joy1_y1*powerThresh)/127;
+		else if(joystick.joy1_x2 < -LOW_MOTOR_THRESH){
+			motor[motorR] = ((joystick.joy1_y1-joystick.joy1_x2)*75)/127;
+			motor[motorL] = (joystick.joy1_y1*75)/127;
 		}
 	}
 	else if(joystick.joy1_x2>LOW_MOTOR_THRESH){
-		motor[motorL] = (joystick.joy1_x2*powerThresh)/127;
-		motor[motorR] = -(joystick.joy1_x2*powerThresh)/127;
+		motor[motorL] = (joystick.joy1_x2*75)/127;
+		motor[motorR] = -(joystick.joy1_x2*75)/127;
 	}
 	else if(joystick.joy1_x2<-LOW_MOTOR_THRESH){
-		motor[motorR]  = -(joystick.joy1_x2*powerThresh)/127;
-		motor[motorL] = (joystick.joy1_x2*powerThresh)/127;
+		motor[motorR]  = -(joystick.joy1_x2*75)/127;
+		motor[motorL] = (joystick.joy1_x2*75)/127;
 	}
 }
