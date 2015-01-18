@@ -111,50 +111,40 @@ task main()
 			joystick2Move(30);
 		}
 		if(joy2Btn(A_BUTT) == IS_PRESSED){
-			int distance = 0;
-			setPosition(tas, 1, distance);
+			setPosition(tas, 1, DEFAULT_DISTANCE);
 			if(joystick.joy1_TopHat == 0){
-				distance++;
-				setPosition(tas, 1, distance);
+				incDistance(tas);
 			}
 			else if(joystick.joy1_TopHat == 4){
-				distance--;
-				setPosition(tas, 1, distance);
+				decDistance(tas);
 			}
 		}
 		else if(joy2Btn(B_BUTT) == IS_PRESSED){
-			setPosition(tas, 2, 0);
+			setPosition(tas, 2,DEFAULT_DISTANCE);
 			if(joystick.joy1_TopHat == 0){
 				incDistance(tas);
-				//setPosition(tas, 2, distance);
 			}
 			else if(joystick.joy1_TopHat == 4){
 				incDistance(tas);
-				//setPosition(tas, 2, distance);
 			}
 		}
 		else if(joy2Btn(X_BUTT) == IS_PRESSED){
-			int distance = 0;
-			setPosition(tas, 3, distance);
+			setPosition(tas, 3, DEFAULT_DISTANCE);
 			if(joystick.joy1_TopHat == 0){
-				distance++;
-				setPosition(tas, 3, distance);
+				incDistance(tas);
 			}
 			else if(joystick.joy1_TopHat == 4){
-				distance--;
-				setPosition(tas, 3, distance);
+				decDistance(tas);
 			}
 		}
 		else if(joy2Btn(Y_BUTT) == IS_PRESSED){
 			int distance = 0;
-			setPosition(tas, 4, distance);
+			setPosition(tas, 4, DEFAULT_DISTANCE);
 			if(joystick.joy1_TopHat == 0){
-				distance++;
 				setPosition(tas, 4, distance);
 			}
 			else if(joystick.joy1_TopHat == 4){
-				distance--;
-				setPosition(tas, 4, distance);
+				decDistance(tas);
 			}
 		}
 		if(joy2Btn(TURBO_BUTT)==IS_PRESSED){

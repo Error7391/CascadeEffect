@@ -39,6 +39,7 @@ const int POS_AT_60CM = 2;
 const int POS_AT_90CM = 3;
 const int POS_AT_120CM = 4;
 const int POS_BALL_COLLECTING = 5;
+const float DEFAULT_DISTANCE = 6.5;
 
 TArmPosition positions[MAX_POSITIONS];
 
