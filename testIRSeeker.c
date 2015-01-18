@@ -87,7 +87,7 @@ void initializeRobot()
 	nPidUpdateInterval = 20;
 
 
-	armInit();
+//	armInit();
 	driveInit();
 	wait1Msec(10);
 
