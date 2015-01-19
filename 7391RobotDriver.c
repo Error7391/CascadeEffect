@@ -69,7 +69,6 @@ void moveInches(float distance){
 		motor[motorR] = -power;
 		motor[motorL] = -power;
 	}
-
 	wait1Msec(44.5*abs(distance));
 
 	motor[motorR] = 0;
