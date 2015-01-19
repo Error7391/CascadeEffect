@@ -3,11 +3,6 @@
 #pragma config(Sensor, S2,     colorR,         sensorNone)
 #pragma config(Sensor, S3,     colorL,         sensorNone)
 #pragma config(Sensor, S4,     irSeeker,       sensorHiTechnicIRSeeker1200)
-<<<<<<< HEAD
-#pragma config(Motor,  motorB,          grabL,         tmotorNXT, PIDControl, encoder)
-#pragma config(Motor,  motorC,          grabR,         tmotorNXT, PIDControl, encoder)
-=======
->>>>>>> origin/master
 #pragma config(Motor,  mtr_S1_C1_1,     motorL,        tmotorTetrix, openLoop, reversed)
 #pragma config(Motor,  mtr_S1_C1_2,     motorR,        tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S1_C2_1,    liftLow,              tServoStandard)
@@ -53,6 +48,7 @@ void initializeRobot()
 {
 	motor[motorR] = 0;
 	motor[motorL] = 0;
+	setPosition(tas, POS_DRIVE, DEFAULT_DISTANCE);
 	armInit(tas);// Place code here to initialize servos to starting positions.
 	wait10Msec(500);
 	// Sensors are automatically configured and setup by ROBOTC. They may need a brief time to stabilize.
@@ -117,15 +113,9 @@ task main()
 		else{
 			joystick2Move(15);
 		}
-		if(joy2Btn(9)==IS_PRESSED){
-			setPosition(tas, 0 ,0);
-		}
+
 		if(joy2Btn(A_BUTT) == IS_PRESSED){
-<<<<<<< HEAD
-			setPosition(tas, 1, 5);
-=======
-			setPosition(tas, 1, DEFAULT_DISTANCE);
->>>>>>> origin/master
+			setPosition(tas, POS_AT_30CM, DEFAULT_DISTANCE);
 			if(joystick.joy1_TopHat == 0){
 				incDistance(tas);
 			}
@@ -134,29 +124,17 @@ task main()
 			}
 		}
 		else if(joy2Btn(B_BUTT) == IS_PRESSED){
-<<<<<<< HEAD
-			setPosition(tas, 2, 5);
-=======
-			setPosition(tas, 2,DEFAULT_DISTANCE);
->>>>>>> origin/master
+			setPosition(tas, POS_AT_60CM,DEFAULT_DISTANCE);
 			if(joystick.joy1_TopHat == 0){
 				incDistance(tas);
 			}
 			else if(joystick.joy1_TopHat == 4){
-<<<<<<< HEAD
 				decDistance(tas);
 				//setPosition(tas, 2, distance);
 			}
 		}
 		else if(joy2Btn(X_BUTT) == IS_PRESSED){
-			setPosition(tas, 3, 5);
-=======
-				incDistance(tas);
-			}
-		}
-		else if(joy2Btn(X_BUTT) == IS_PRESSED){
-			setPosition(tas, 3, DEFAULT_DISTANCE);
->>>>>>> origin/master
+				setPosition(tas, POS_AT_90CM, DEFAULT_DISTANCE);
 			if(joystick.joy1_TopHat == 0){
 				incDistance(tas);
 			}
@@ -165,16 +143,11 @@ task main()
 			}
 		}
 		else if(joy2Btn(Y_BUTT) == IS_PRESSED){
-<<<<<<< HEAD
-			setPosition(tas, 4, 5);
+
+			int distance = 0;
+			setPosition(tas, POS_AT_120CM, DEFAULT_DISTANCE);
 			if(joystick.joy1_TopHat == 0){
 				incDistance(tas);
-=======
-			int distance = 0;
-			setPosition(tas, 4, DEFAULT_DISTANCE);
-			if(joystick.joy1_TopHat == 0){
-				setPosition(tas, 4, distance);
->>>>>>> origin/master
 			}
 			else if(joystick.joy1_TopHat == 4){
 				decDistance(tas);
@@ -188,6 +161,18 @@ task main()
 		}
 		else if(joy2Btn(TURBO_BUTT)== 0 && joy2Btn(5) == 0){
 			collectorStop();
+		}
+		if(joy2Btn(8)==IS_PRESSED){
+			setPosition(tas, POS_BALL_COLLECTING, DEFAULT_DISTANCE);
+		}
+		else if(joy2Btn(7) == IS_PRESSED){
+			setPosition(tas, POS_DRIVE, DEFAULT_DISTANCE);
+		}
+		if(joystick.joy2_TopHat == 2){
+				trapDoorOpen();
+		}
+		if(joystick.joy2_TopHat == 6){
+				trapDoorClose();
 		}
 
 	}
@@ -223,20 +208,20 @@ void joystick2Move(int powerThresh){
 			motor[motorR] = (joystick.joy1_y1*powerThresh)/127;
 		}
 		else if(joystick.joy1_x2 > LOW_MOTOR_THRESH){
-			motor[motorL] = ((joystick.joy1_y1+joystick.joy1_x2)*75)/127;
-			motor[motorR] = (joystick.joy1_y1*75)/127;
+			motor[motorL] = ((joystick.joy1_y1+joystick.joy1_x2)*70)/127;
+			motor[motorR] = (joystick.joy1_y1*70)/127;
 		}
 		else if(joystick.joy1_x2 < -LOW_MOTOR_THRESH){
-			motor[motorR] = ((joystick.joy1_y1-joystick.joy1_x2)*75)/127;
-			motor[motorL] = (joystick.joy1_y1*75)/127;
+			motor[motorR] = ((joystick.joy1_y1-joystick.joy1_x2)*70)/127;
+			motor[motorL] = (joystick.joy1_y1*70)/127;
 		}
 	}
 	else if(joystick.joy1_x2>LOW_MOTOR_THRESH){
-		motor[motorL] = (joystick.joy1_x2*75)/127;
-		motor[motorR] = -(joystick.joy1_x2*75)/127;
+		motor[motorL] = -(joystick.joy1_x2*70)/127;
+		motor[motorR] = (joystick.joy1_x2*70)/127;
 	}
 	else if(joystick.joy1_x2<-LOW_MOTOR_THRESH){
-		motor[motorR]  = -(joystick.joy1_x2*75)/127;
-		motor[motorL] = (joystick.joy1_x2*75)/127;
+		motor[motorR]  = (joystick.joy1_x2*70)/127;
+		motor[motorL] = -(joystick.joy1_x2*70)/127;
 	}
 }
