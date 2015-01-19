@@ -70,7 +70,7 @@ void moveInches(float distance)
 		motor[motorR] = -30;
 		motor[motorL] = -30;
 	}
-	writeDebugStreamLine("power is 30);
+	writeDebugStreamLine("power is 30");
 	wait1Msec(44.5*distance);
 
 	motor[motorR] = 0;
