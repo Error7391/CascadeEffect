@@ -79,12 +79,23 @@ int getBeaconVal(int irGoal)
 
 		irValue = SensorValue(irSeeker);
 		eraseDisplay();
+
 		nxtDisplayTextLine(4, "irValue %d", irValue);
 		//getColorSensorData(colorPort, colorRaw,    &nRawValues[0]);
 		writeDebugStreamLine( "irValue%d\n", irValue);
 	//}
+		if(irValue==0){
+			writeDebugStreamLine("read again");
 
-	return(irValue);
+			irValue = SensorValue(irSeeker);
+			eraseDisplay();
+
+			nxtDisplayTextLine(4, "irValue %d", irValue);
+			//getColorSensorData(colorPort, colorRaw,    &nRawValues[0]);
+			writeDebugStreamLine( "irValue%d\n", irValue);
+
+		}
+		return(irValue);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

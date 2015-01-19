@@ -70,7 +70,9 @@ void initializeRobot()
 	nxtDisplayTextLine(0, "Autonomous Period");
 
 	driveInit();
+	nxtDisplayTextLine(0 ,"Drive inited");
 	armInit(tas);
+		nxtDisplayTextLine(0 ,"Arm inited");
   //Does armInit need 5 sec wait????
 
 	wait1Msec(10);
@@ -111,6 +113,11 @@ task main()
 
 	writeDebugStreamLine("initalizing");
 	initializeRobot();
+	#ifdef COMPETITION
+	waitForStart();
+	#endif
+
+
 	writeDebugStreamLine("initalized");
 
 
@@ -165,17 +172,31 @@ task main()
 		while (nNxtButtonPressed != kEnterButton){}
 	//Raise arm while moving
 	setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
+	wait10Msec(500);
 	//Move to first_ postion to read IR
-	moveInches(43);
+	moveInches(6);
+	while (nNxtButtonPressed != kEnterButton){}
+	rotateDegrees(42);
+	while (nNxtButtonPressed != kEnterButton){}
+	moveInches(47);
 
   while (nNxtButtonPressed != kEnterButton){}
 	irValue = getBeaconVal(0);
-	if(irValue==8){
+	if(irValue>= 5){
 		writeDebugStreamLine("CENTER_GOAL_POS1_0DEG");
-		writeDebugStreamLine("ir=8");
+		writeDebugStreamLine("ir=5");
+		while (nNxtButtonPressed != kEnterButton){}
+		moveInches(-18);
+		while (nNxtButtonPressed != kEnterButton){}
+		rotateDegrees(-42);
+		while (nNxtButtonPressed != kEnterButton){}
+		moveInches(18);
+		while (nNxtButtonPressed != kEnterButton){}
+		rotateDegrees(-60);
+		while (nNxtButtonPressed != kEnterButton){}
 	}
 	else{
-		moveInches(12);
+			moveInches(3);
 			writeDebugStreamLine("CENTER_GOAL_POS 3 or 2_90DEG?????");
 			while (nNxtButtonPressed != kEnterButton){}
 			moveInches(-20);
