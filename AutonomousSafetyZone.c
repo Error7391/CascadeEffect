@@ -174,42 +174,35 @@ task main()
 	setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
 	wait10Msec(500);
 	//Move to first_ postion to read IR
-	moveInches(6);
+	moveInches(9);
 	while (nNxtButtonPressed != kEnterButton){}
-	rotateDegrees(42);
+	rotateDegrees(40);
 	while (nNxtButtonPressed != kEnterButton){}
-	moveInches(47);
+	moveInches(49);
 
   while (nNxtButtonPressed != kEnterButton){}
 	irValue = getBeaconVal(0);
-	if(irValue>= 5){
+	if(irValue>= 6){
 		writeDebugStreamLine("CENTER_GOAL_POS1_0DEG");
 		writeDebugStreamLine("ir=5");
 		while (nNxtButtonPressed != kEnterButton){}
-		moveInches(-18);
+		moveInches(-17);
 		while (nNxtButtonPressed != kEnterButton){}
-		rotateDegrees(-42);
+		rotateDegrees(-40);
 		while (nNxtButtonPressed != kEnterButton){}
-		moveInches(18);
+		moveInches(14);
 		while (nNxtButtonPressed != kEnterButton){}
 		rotateDegrees(-60);
 		while (nNxtButtonPressed != kEnterButton){}
 	}
 	else{
-			moveInches(3);
+			moveInches(-3);
 			writeDebugStreamLine("CENTER_GOAL_POS 3 or 2_90DEG?????");
 			while (nNxtButtonPressed != kEnterButton){}
-			moveInches(-20);
+			rotateDegrees(-40);
 			while (nNxtButtonPressed != kLeftButton){}
-			rotateDegrees(30);
-			while (nNxtButtonPressed != kEnterButton){}
-			moveInches(-10);
-			while (nNxtButtonPressed != kLeftButton){}
-			rotateDegrees(-30);
-			while (nNxtButtonPressed != kEnterButton){}
-			moveInches(-20);
-			while (nNxtButtonPressed != kLeftButton){}
-			setPosition(tas, POS_AT_120CM, DEFAULT_DISTANCE);
+			moveInches(16);
+		//	setPosition(tas, POS_AT_120CM, DEFAULT_DISTANCE);
 		//	wait1Msec(5000);
 			while (nNxtButtonPressed != kEnterButton){}
 			moveInches(30);
