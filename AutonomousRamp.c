@@ -111,6 +111,10 @@ task main()
 	writeDebugStreamLine("initalizing");
 	initializeRobot();
 	writeDebugStreamLine("initalized");
+		#ifdef COMPETITION
+	waitForStart();
+	#endif
+
 		setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
 
 			while (nNxtButtonPressed != kEnterButton){}
@@ -120,4 +124,8 @@ task main()
 	wait10Msec(1000);
 	moveInches(15);
 	trapDoorOpen();
+	wait10Msec(500);
+	moveInches(-20);
+	setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
+	wait10Msec(1000);
 }
