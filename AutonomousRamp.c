@@ -107,13 +107,17 @@ void initializeRobot()
 
 task main()
 {
-  int irValue;
 
 	writeDebugStreamLine("initalizing");
 	initializeRobot();
 	writeDebugStreamLine("initalized");
+		setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
 
 			while (nNxtButtonPressed != kEnterButton){}
 
-	moveInches(64);
+	moveInches(54);
+	setPosition(tas, POS_AT_60CM, DEFAULT_DISTANCE);
+	wait10Msec(1000);
+	moveInches(15);
+	trapDoorOpen();
 }
