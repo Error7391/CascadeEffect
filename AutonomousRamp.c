@@ -3,6 +3,7 @@
 #pragma config(Sensor, S2,     colorR,         sensorNone)
 #pragma config(Sensor, S3,     colorL,         sensorNone)
 #pragma config(Sensor, S4,     irSeeker,       sensorHiTechnicIRSeeker1200)
+#pragma config(Motor,  motorA,          hook,          tmotorNXT, PIDControl, encoder)
 #pragma config(Motor,  mtr_S1_C1_1,     motorL,        tmotorTetrix, openLoop, reversed)
 #pragma config(Motor,  mtr_S1_C1_2,     motorR,        tmotorTetrix, openLoop)
 #pragma config(Servo,  srvo_S1_C2_1,    liftLow,              tServoStandard)
@@ -26,7 +27,6 @@
 #include "7391AutoUtils.c" //Include file of Autonomous Utilities.
 
 #include "ArmDriver.c" //Include file of Robot Drivers.
-
 
 TArmState tas;
 
@@ -80,28 +80,7 @@ void initializeRobot()
 //////////////////////////////////////////////////////////////////////////////////////////////
 //Autonomous Period
 
-//-by Arjun Verma (FTC Team Error 7391)
-
-
-
-//(POSITION 1 - perpendicular)
-
-//(POSITION 2 - 45 degrees right of POS 1)
-
-//(POSITION 3 - 90 degrees right of POS 1)
-
 //RAMP MODE
-
-//Get off ramp
-//Find optimal position to detect IR beacon
-	//if IR beacon is detected at position one then do:
-		//go forward till IR beacon is perpendicular to robot
-		//go to the rolling goals and score in the highest goal
-		//pick up rolling goal
-		//turn toward IR beacon
-		//score one ball in the center goal
-		//place rolling goal in the parking zone
-		//get other rolling goals if time
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -111,21 +90,25 @@ task main()
 	writeDebugStreamLine("initalizing");
 	initializeRobot();
 	writeDebugStreamLine("initalized");
-		#ifdef COMPETITION
-	waitForStart();
+	nxtDisplayTextLine(1, "Initialized");
+
+	#ifdef COMPETITION
+		waitForStart();
+  #else
+		while (nNxtButtonPressed != kEnterButton){}
 	#endif
 
-		setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
-
-			while (nNxtButtonPressed != kEnterButton){}
-
+	setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
+	wait10Msec(100); //wait 2 sec for raise
+	//moveInches(50);
+	setPosition(tas, POS_AT_60CM, DEFAULT_DISTANCE-1.5);
 	moveInches(54);
-	setPosition(tas, POS_AT_60CM, DEFAULT_DISTANCE);
-	wait10Msec(1000);
-	moveInches(15);
+  wait10Msec(1000);
+	//moveInches(14);
+	moveInches(14);
 	trapDoorOpen();
 	wait10Msec(500);
 	moveInches(-20);
 	setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
-	wait10Msec(1000);
+	wait10Msec(2000);
 }

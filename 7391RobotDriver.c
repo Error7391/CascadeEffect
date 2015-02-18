@@ -3,6 +3,7 @@ void driveInit();
 
 
 void moveInches(float distance/*inches*/);
+void moveInchesPower(float distance, int power);
 void rotateDegrees(float degrees);
 //void pivotDegrees(float degrees);  //Not Updated
 float ticks2inches(float ticks);
@@ -27,11 +28,11 @@ float inches2ticks(float inches, int distance);
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 void driveInit(){
-	//motor[motorR] = 0;
-	//motor[motorL] = 0;
+	motor[motorR] = 0;
+	motor[motorL] = 0;
+	nMotorEncoder[hook] = 0;
 
-	//nPidUpdate
-//Interval = 20;
+	//nPidUpdateInterval = 20
 
 
 	nxtDisplayTextLine(4, "driveInit");
@@ -39,6 +40,20 @@ void driveInit(){
 
 }
 
+
+void hookGrab()
+{
+	nMotorEncoderTarget[hook] = 180;
+	motor[hook] = 30;
+	wait1Msec(1000);
+}
+
+void hookUngrab()
+{
+	nMotorEncoderTarget[hook] = 0;
+	motor[hook] = 30;
+	wait1Msec(1000);
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -58,6 +73,11 @@ void driveInit(){
 
 void moveInches(float distance){
 	const int power = 25;
+	moveInchesPower(distance, power);
+
+}
+void moveInchesPower(float distance, int power){
+
 	int ticks = 65*1440/(DRIVE_DIAMETER*PI)*distance;
 
 	writeDebugStreamLine("move %f inches", distance);

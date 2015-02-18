@@ -17,7 +17,7 @@
 //#define COMPETITION
 //#define DEBUG
 #define TEST_ARM 0
-#define RAMP 0
+#define RAMP 1
 
 #ifdef COMPETITION
 #include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
@@ -28,6 +28,9 @@
 
 #include "ArmDriver.c" //Include file of Robot Drivers.
 
+const int TestHook = 0;
+const int TestHardware = 0;
+const int TestPositions = 1;
 
 TArmState tas;
 
@@ -71,9 +74,7 @@ void initializeRobot()
 	nxtDisplayTextLine(0, "Autonomous Period");
 
 	driveInit();
-	nxtDisplayTextLine(0 ,"Drive inited");
 	armInit(tas);
-		nxtDisplayTextLine(0 ,"Arm inited");
   //Does armInit need 5 sec wait????
 
 	wait1Msec(10);
@@ -110,180 +111,113 @@ void initializeRobot()
 
 task main()
 {
-  int irValue;
 
 	writeDebugStreamLine("initalizing");
 	initializeRobot();
-	#ifdef COMPETITION
-	waitForStart();
-	#endif
-
-
 	writeDebugStreamLine("initalized");
 	#ifdef COMPETITION
-	waitForStart();
-	#else
+		waitForStart();
+  #else
 	while (nNxtButtonPressed != kEnterButton){}
 	#endif
+	rotateDegrees(45);
+	while (nNxtButtonPressed != kRightButton){}
+	rotateDegrees(45);
+	while (nNxtButtonPressed != kRightButton){}
 
 
-#if (TEST_ARM == 1)
-  	int oldButton = kNoButton;
-		int Button = kNoButton;
-		while(1)
-		{
-			Button = nNxtButtonPressed;
-			if (Button != oldButton)
-			{
-				switch (Button)
-				{
-					case kLeftButton:
-						setPosition(tas, POS_BALL_COLLECTING, DEFAULT_DISTANCE);
-						trapDoorClose();
-						collectorIn();
+if (TestHook == 1) {
+	setPosition(tas, POS_AT_60CM, DEFAULT_DISTANCE-1.5);
+	while (nNxtButtonPressed != kRightButton){}
+	hookGrab();
+	wait1Msec(3000);
+	moveInches(-20);
+	hookUngrab();
+	while (nNxtButtonPressed != kLeftButton){}
+}
+if (TestHardware == 1) {
+		writeDebugStreamLine("Test Hardware");
+	trapDoorOpen();
+	trapDoorClose();
+		servo[collector] = COLLECTOR_IDLE;
+ 	setPosition (tas, POS_BALL_COLLECTING, DEFAULT_DISTANCE);
+wait10Msec(300);
+		servo[collector] = COLLECTOR_IN;
+wait10Msec(300);
+		servo[collector] = COLLECTOR_IDLE;
+	setPosition(tas, POS_AT_60CM, DEFAULT_DISTANCE-1.5);
+  wait10Msec(1000);
+	trapDoorOpen();
+ wait10Msec(3000);
+}
+if (TestPositions == 1) {
+		writeDebugStreamLine("Test Positions");
+	//	while (nNxtButtonPressed != kRightButton){}
+	//setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
+	//	while (nNxtButtonPressed != kLeftButton){}
+ //	setPosition (tas, POS_AT_60CM, DEFAULT_DISTANCE);
+	//	while (nNxtButtonPressed != kRightButton){}
 
-  					while (nNxtButtonPressed != kEnterButton){}
- 						setPosition(tas, POS_AT_120CM, DEFAULT_DISTANCE);
-						trapDoorOpen();
-						collectorStop();
+		//Test 90
+	//setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
+	//	while (nNxtButtonPressed != kLeftButton){}
+ //	setPosition (tas, POS_AT_90CM, DEFAULT_DISTANCE);
+	//	while (nNxtButtonPressed != kRightButton){}
+	//		trapDoorOpen();
+	//	while (nNxtButtonPressed != kEnterButton){}
 
-
-						//moveInches(40);
-
-						break;
-					case kEnterButton:
-						setPosition(tas, POS_HOME, DEFAULT_DISTANCE);
-						break;
-					case kRightButton:
-						setPosition(tas, POS_BALL_COLLECTING, DEFAULT_DISTANCE);
-						trapDoorCl2ose();
-						collectorIn();
-
-  					while (nNxtButtonPressed != kEnterButton){}
- 						setPosition(tas, POS_AT_30CM, DEFAULT_DISTANCE);
-						trapDoorOpen();
-						collectorStop();
- 							break;
-					default:
-						Button = kNoButton;
-						break;
-				}
-				oldButton = Button;
-
-			}
-		}
-#else
-//AUTONOMOUS FROM SAFETY ZONE TO CENTER GOAL
-	//Raise arm while moving
+			setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
+		while (nNxtButtonPressed != kLeftButton){}
+ 			setPosition (tas, POS_AT_120CM, DEFAULT_DISTANCE);
+		while(nNxtButtonPressed != kEnterButton){}
+			moveInches(24);
+		while (nNxtButtonPressed != kRightButton){}
+			trapDoorOpen();
+		while(nNxtButtonPressed != kEnterButton){}
+			moveInches(-24);
+		while (nNxtButtonPressed != kLeftButton){}
 	setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
-	wait10Msec(200);
-	//Move to first_ postion to read IR
-	moveInches(10);
-	rotateDegrees(40);
-	moveInches(52);
 
- // while (nNxtButtonPressed != kLeftButton){}
-	irValue = getBeaconVal(0);
-	if(irValue>= 6){
-		writeDebugStreamLine("ir>6");
-		writeDebugStreamLine("CENTER_GOAL_POS1_0DEG");
-		moveInches(-15);
-		rotateDegrees(-40);
-		moveInches(18);
-		rotateDegrees(-70); //Knock down kickstand
-	}
-	else{
-			writeDebugStreamLine("CENTER_GOAL_POS 3 or 2_90DEG?????");
-			moveInches(-3);
-			rotateDegrees(-25);
-			moveInches(-2);
-			rotateDegrees(-30);
-			moveInches(22);//Knock down kickstand
+		while (nNxtButtonPressed != kEnterButton){}
+ 	setPosition (tas, POS_AT_120CM, DEFAULT_DISTANCE);
+		while (nNxtButtonPressed != kRightButton){}
+	setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
+		while (nNxtButtonPressed != kLeftButton){}
+	setPosition (tas, POS_AT_90CM, DEFAULT_DISTANCE+3.5);
+		while (nNxtButtonPressed != kRightButton){}
+	setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
+		while (nNxtButtonPressed != kLeftButton){}
+	setPosition (tas, POS_AT_120CM, DEFAULT_DISTANCE);
+		while (nNxtButtonPressed != kRightButton){}
+	trapDoorOpen();
+		while (nNxtButtonPressed != kRightButton){}
+	setPosition (tas, POS_AT_30CM, DEFAULT_DISTANCE);
+		while (nNxtButtonPressed != kLeftButton){}
+	//setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
+		//while (nNxtButtonPressed != kRightButton){}
+	setPosition (tas, POS_AT_90CM, DEFAULT_DISTANCE);
+		while (nNxtButtonPressed != kEnterButton){}
+	setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
+		while (nNxtButtonPressed != kRightButton){}
+	setPosition (tas, POS_AT_120CM, DEFAULT_DISTANCE);
+		//while (nNxtButtonPressed != kLeftButton){}
+	setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
+		while (nNxtButtonPressed != kEnterButton){}
 
+}
 #if 0
-			while (nNxtButtonPressed != kEnterButton){}
-			moveInches(30);
-			irValue = getBeaconVal(0);
-		if(irValue==8 || irValue == 9){
-			writeDebugStreamLine("CENTER_GOAL_POS3_90DEG");
-			writeDebugStreamLine("raise to pos 120");
-		//	setPosition(tas, POS_AT_120CM, DEFAULT_DISTANCE);
-		//	wait10Msec(500);
-			while (nNxtButtonPressed != kLeftButton){}
-			trapDoorOpen();
-		}
-		else{
-			writeDebugStreamLine("CENTER_GOAL_POS2_45DEG");
-			while (nNxtButtonPressed != kEnterButton){}
-			moveInches(-12);
-			while (nNxtButtonPressed != kLeftButton){}
-			rotateDegrees(-45);
-			while (nNxtButtonPressed != kEnterButton){}
-			moveInches(17);
-			while (nNxtButtonPressed != kLeftButton){}
-			rotateDegrees(45);
-			while (nNxtButtonPressed != kEnterButton){}
-			moveInches(8);
-			while (nNxtButtonPressed != kLeftButton){}
-
-			writeDebugStreamLine("raise to pos 120");
-		//	setPosition(tas, POS_AT_120CM, DEFAULT_DISTANCE);
-		//	wait1oMsec(500);
-
-			while (nNxtButtonPressed != kLeftButton){}
-			trapDoorOpen();
-		}
+	setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
+	wait10Msec(200); //wait 2 sec for raise
+	//moveInches(50);
+	moveInches(54);
+	setPosition(tas, POS_AT_60CM, DEFAULT_DISTANCE-1.5);
+  wait10Msec(1000);
+	//moveInches(14);
+	moveInches(10);
+	trapDoorOpen();
+	wait10Msec(500);
+	moveInches(-20);
+	setPosition (tas, POS_DRIVE, DEFAULT_DISTANCE);
+	wait10Msec(2000);
 #endif
-	}
-
-#endif
-}//end main
-
-//		writeDebugStreamLine("move 24 inches");
-//	moveInches(24);
-//	while (nNxtButtonPressed != kEnterButton){}
-//	writeDebugStreamLine("move 24 inches");
-//	moveInches(24);
-//	while (nNxtButtonPressed != kEnterButton){}
-
-//	writeDebugStreamLine("moved");
-
-
-
-//	while (nNxtButtonPressed != kEnterButton){}
-//	rotateDegrees(90);
-//	writeDebugStreamLine("turned");
-
-//		while (nNxtButtonPressed != kEnterButton){}
-//	rotateDegrees(90);
-//	writeDebugStreamLine("turned");
-//	while (nNxtButtonPressed != kEnterButton){}
-//	rotateDegrees(90);
-//	writeDebugStreamLine("turned");
-//	while (nNxtButtonPressed != kEnterButton){}
-//	rotateDegrees(90);
-//	writeDebugStreamLine("turned");
-
-//	while (nNxtButtonPressed != kEnterButton){}
-//	irValue = getBeaconVal(0);
-//	while (nNxtButtonPressed != kEnterButton){}
-//	if(irValue==7){
-//		turnDegrees(-90);
-//		while (nNxtButtonPressed != kEnterButton){}
-//		moveInches(18);
-//		while (nNxtButtonPressed != kEnterButton){}
-//		moveInches(20);
-//	}
-
-//	else if(irValue==2 || irValue==3){
-//		turnDegrees(-45);
-//		while (nNxtButtonPressed != kEnterButton){}
-//		moveInches(17);
-//	}
-
-//	else if(irValue==5){
-//		moveInches(10);
-//		while (nNxtButtonPressed != kEnterButton){}
-//		turnDegrees(90);
-//	}
-//}
+}
