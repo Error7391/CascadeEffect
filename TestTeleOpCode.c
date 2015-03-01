@@ -87,7 +87,7 @@ void initializeRobot()
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //const int LOW_MOTOR_THRESH = 15;
-const int LOW_MOTOR_THRESH = 25;
+const int LOW_MOTOR_THRESH = 15;
 const int TURBO_BUTT  = 6;
 const int  X_BUTT  = 1;
 const int B_BUTT  = 3;
@@ -116,10 +116,10 @@ task main()
 		//motor[motorL] = 30;
 		//motor[motorR] = 30;
 		if(joy1Btn(TURBO_BUTT) == IS_PRESSED){
-			joystick2Move(40);
+			joystick2Move(50);
 		}
 		else{
-			joystick2Move(15);
+			joystick2Move(30);
 		}
 
 		if(joy2Btn(A_BUTT) == IS_PRESSED){
