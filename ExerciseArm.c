@@ -16,6 +16,8 @@
 
 TArmState tas;
 
+const int DefaultDistance = 6.5;
+
 task main()
 {
 	armInit(tas);
@@ -54,14 +56,14 @@ task main()
 			switch (Button)
 			{
 			case kLeftButton:
-				setPosition(tas, POS_BALL_COLLECTING, DEFAULT_DISTANCE);
+				setPosition(tas, POS_BALL_COLLECTING, DefaultDistance);
 				trapDoorClose();
 				collectorIn();
 
 				//while (nNxtButtonPressed != kRightButton){}
 				wait1Msec(5000);
 				collectorStop();
-				setPosition(tas, POS_AT_120CM, DEFAULT_DISTANCE);
+				setPosition(tas, POS_AT_120CM, DefaultDistance);
 				trapDoorOpen();
 
 
@@ -69,16 +71,16 @@ task main()
 
 				break;
 			case kEnterButton:
-				setPosition(tas, POS_AT_30CM, DEFAULT_DISTANCE);
+				setPosition(tas, POS_AT_30CM, DefaultDistance);
 
 				break;
 			case kRightButton:
-				setPosition(tas, POS_BALL_COLLECTING, DEFAULT_DISTANCE);
+				setPosition(tas, POS_BALL_COLLECTING, DefaultDistance);
 				trapDoorClose();
 				collectorIn();
 
 				while (nNxtButtonPressed != kLeftButton){}
-				setPosition(tas, POS_AT_30CM, DEFAULT_DISTANCE);
+				setPosition(tas, POS_AT_30CM, DefaultDistance);
 				trapDoorOpen();
 				break;
 			default:

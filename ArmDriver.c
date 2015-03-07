@@ -4,8 +4,6 @@
 * - TArmState stores the physical characteristics of the arm
 * - Position is 1 of 5 values (0 - 0 cm, 1 - 30 cm, 2 - 60 cm, 3 - 90 cm, 4 - 120 cm)
 */
-
-
 enum collectorState
 {
 	COLLECTOR_IDLE = 128,
@@ -15,7 +13,7 @@ enum collectorState
 
 enum trapDoorState
 {
-	TRAP_DOOR_CLOSED = 167,
+	TRAP_DOOR_CLOSED = 162,
 	TRAP_DOOR_OPEN = 255
 };
 
@@ -27,6 +25,11 @@ typedef struct {
 	int distance;
 	int position;
 } TArmState;
+
+typedef struct {
+	int currentPos;
+	int targetPos;
+} TShoulderControl;
 
 typedef struct {
 	bool shoulderOver;
@@ -43,9 +46,9 @@ const int POS_AT_120CM = 4;
 const int POS_BALL_COLLECTING = 5;
 const int POS_DRIVE = 6;
 const float DEFAULT_DISTANCE = 6.5;
-//const float DEFAULT_DISTANCE = 5.0; //for 60cm
 
 TArmPosition positions[MAX_POSITIONS];
+TShoulderControl sctrl;
 
 const float hyp = 14;
 
@@ -66,13 +69,11 @@ void collectorOut()
 
 void trapDoorClose()
 {
-	writeDebugStreamLine("TrapDoor CLOSE");
 	servo[trapDoor] = TRAP_DOOR_CLOSED;
 }
 
 void trapDoorOpen()
 {
-	writeDebugStreamLine("TrapDoor OPEN");
 	servo[trapDoor] = TRAP_DOOR_OPEN;
 }
 
@@ -85,6 +86,11 @@ int shoulderRatio(int angle) {
 	return angle * -15 / 45 - sinDegrees(angle) * 15;
 }
 
+float iShoulderRatio(int sSetting) {
+	float angle = sSetting * -45 / 15;
+	return angle + sinDegrees(angle) * 15;
+}
+
 // Calculates the servo settings for the elbow given an angle in degrees
 int elbowRatio(int angle) {
 	return angle * 105 / 90;
@@ -95,42 +101,64 @@ int liftRatio(float height) {
 	return height * -180 / 30;
 }
 
+task ElbowControl () {
+	while(true) {
+		//read the shoulder value and convert it into angles
+		wait1Msec(100);
+		int sServo = servo[shoulder];
+		int angle = iShoulderRatio(sServo);
+		//set the elbow to the matching angle
+		int eServo = elbowRatio(angle);
+		writeDebugStreamLine(" >>> ElbowControl - shoulder servo is %d, angle is %f, elbow servo is %d",sServo,angle,eServo);
+		servo[elbow] = eServo;
+	}
+}
+
+task ShoulderControl () {
+	while(true) {
+		wait1Msec(100);
+		//if the current shoulder control setting is not the target
+		if (sctrl.currentPos != sctrl.targetPos) {
+			int diff = sctrl.targetPos - sctrl.currentPos;
+		int delta = (diff < 0) ? -1 : 1;
+			sctrl.currentPos += delta;
+			servo[shoulder] = sctrl.currentPos;
+		}
+	}
+}
+
 // Sets up the TArmState control block and initializes the positions array
 void armInit(TArmState& tasr) {
-	positions[0].shoulderOver = true;
-	positions[0].maxD = 0;
-	positions[0].height = 0;
+	positions[POS_HOME].shoulderOver = true;
+	positions[POS_HOME].maxD = 0;
+	positions[POS_HOME].height = 0;
 
 	positions[1].shoulderOver = true;
 	positions[1].maxD = 13.4;
-	//positions[1].height = 11.81;
-	positions[1].height = 13.0;
+	positions[1].height = 11.81;
 
-	positions[POS_AT_60CM].shoulderOver = true;
+	positions[2].shoulderOver = true;
 	positions[2].maxD = 14;
-//	positions[2].height = 23.62;
-	positions[2].height = 24.5;  //bring arm in 1.5 in. make height too low
+	positions[2].height = 23.62;
 
-	positions[POS_AT_90CM].shoulderOver = false;
-	//positions[3].maxD = 14;
-	positions[3].maxD = 16;
-	//positions[3].height = 35.43;
-	positions[3].height = 34.00;
+	positions[3].shoulderOver = false;
+	positions[3].maxD = 14;
+	positions[3].height = 35.43;
 
 	positions[4].shoulderOver = false;
 	positions[4].maxD = 14;
 	positions[4].height = 47.24;
 
-	positions[5].shoulderOver = true;
-	positions[5].maxD = 0;
-	positions[5].height = 7;
+	positions[POS_BALL_COLLECTING].shoulderOver = true;
+	positions[POS_BALL_COLLECTING].maxD = 0;
+	positions[POS_BALL_COLLECTING].height = 4;
 
 	positions[POS_DRIVE].shoulderOver = true;
-	positions[6].maxD = 2;
-	positions[6].height = 4;
+  positions[POS_DRIVE].maxD = 2;
+  positions[POS_DRIVE].height = 4;
 
-	servoChangeRate[shoulder] = 40;
-	//servoChangeRate[shoulder] = 1;
+
+	servoChangeRate[shoulder] = 20;
 	servoChangeRate[elbow] = 1;
 	servoChangeRate[liftHigh] = 0;
 	servoChangeRate[liftLow] = 0;
@@ -144,10 +172,8 @@ void armInit(TArmState& tasr) {
 	// Hard coding the initial positions until calibration can be made
 	tasr.liftLowZero = 200;
 	tasr.liftHighZero = 200;
-	//tasr.shoulderZero = 155;
-	tasr.shoulderZero = 101;
-	//tasr.elbowZero = 25;
-	tasr.elbowZero = 15; //Servo came off so changed value
+	tasr.shoulderZero = 155;
+	tasr.elbowZero = 25;
 
 	servo[liftLow] = tasr.liftLowZero;
 	servo[liftHigh] = tasr.liftHighZero;
@@ -156,20 +182,19 @@ void armInit(TArmState& tasr) {
 
 	servo[collector] = COLLECTOR_IDLE;
 	servo[trapDoor] = TRAP_DOOR_CLOSED;
+
+	startTask(ElbowControl);
+	sctrl.currentPos = sctrl.targetPos = tasr.shoulderZero;
+	startTask(ShoulderControl);
 }
 
 
 // Moves the arm so it is at a specified angle, 1 to 180 degrees
 void setArmAngle(TArmState& tasr, int angle) {
 	if (angle >= 0 && angle <= 180) {
-		servo[shoulder] = tasr.shoulderZero + shoulderRatio(angle);
-		int elbowSetting = tasr.elbowZero + elbowRatio(angle);
-		if (elbowSetting > 100) { //for pos 90
-			wait10Msec(180);
-	    servo[elbow] = 80;
-	    wait10Msec(250);
-	 }
-		servo[elbow] = tasr.elbowZero + elbowRatio(angle);
+		//servo[shoulder] = tasr.shoulderZero + shoulderRatio(angle);
+		//servo[elbow] = tasr.elbowZero + elbowRatio(angle);
+		sctrl.targetPos = tasr.shoulderZero + shoulderRatio(angle);
 		} else {
 		// TODO - Indicate error state somehow
 	}
@@ -192,126 +217,62 @@ void setShoulderHeight(TArmState& tasr, float inches) {
 
 // Main routine set the height of the end of the arm to 1 of 5 presets at a given distance from the robot
 void setPosition (TArmState& tasr, int p, float distance) {
-  writeDebugStreamLine("     Position = %d",p);
-	writeDebugStreamLine("     Distance = %d",distance);
-	writeDebugStreamLine("      = %d",positions[p].maxD);
+	writeDebugStreamLine("Position = %d",p);
+	writeDebugStreamLine("Distance = %d",distance);
+	writeDebugStreamLine("maxD = %d",positions[p].maxD);
 	tasr.distance = distance;
 	tasr.position = p;
 
 	float d;
-	if (p == POS_BALL_COLLECTING) {
-		servo[liftLow] = 163;
-		servo[liftHigh] = 163;
-		servo[shoulder] = 95;
-		servo[elbow] = 122;
-	}
-	else
-
-	if (p == POS_DRIVE){
-		servo[liftLow] = 174;
-		servo[liftHigh] = 174;
-		servo[shoulder] = 95;
-		servo[elbow] = 13;
-	}
-	else
-	if (p == POS_AT_60CM){
-		servo[liftLow] = 57;
-		servo[liftHigh] = 44;
-		servo[shoulder] = 85;
-		servo[elbow] = 34;
-	}
-	else
-		if (p == POS_AT_90CM){ //start from elbow = 13
-		servo[liftLow] = 130;
-		servo[liftHigh] = 130;
-		servo[shoulder] = 44;
-			//start from elbow = 13 in drive
-			wait10Msec(170);//170//100-120-150 //150
-	    servo[elbow] = 72;//72
-	    wait10Msec(90);//90 //70
-			servo[elbow] = 80;//80
-	    wait10Msec(80);//60 //80
-			servo[elbow] = 100; //100
-	    wait10Msec(100);//100
-	    servo[elbow] = 130;//130
-	    wait10Msec(60);//120 //80-100 //60
-			servo[elbow] = 150;
-	    wait10Msec(30);//120 //80-100
-			servo[elbow] = 184;//165
-	  //  wait10Msec(100);//120 //80-100//30
-			//servo[elbow] = 165;//173
-	}
-	else
-		if (p == POS_AT_120CM){ //start from elbow = 13
-		servo[liftLow] = 40;
-		servo[liftHigh] = 40;
-		servo[shoulder] = 44;
-			//start from elbow = 13 in drive
-			wait10Msec(180);//170//100-120-150 //150
-	    servo[elbow] = 72;//72
-	    wait10Msec(80);//90 //70//30
-			servo[elbow] = 80;//80
-	    wait10Msec(80);//60 //80
-			servo[elbow] = 100; //100
-	    wait10Msec(100);//100
-	    servo[elbow] = 130;//130
-	    wait10Msec(100);//120 //80-100 //60
-			servo[elbow] = 150;
-	    wait10Msec(120);//120 //80-100
-			servo[elbow] = 170;//165
-	  //  wait10Msec(100);//120 //80-100//30
-			//servo[elbow] = 165;//173
-	}
-	else
-
-	if (p == 0) {
+	if (p == POS_HOME) {
 		setShoulderHeight(tasr,0);
 		setArmAngle(tasr,0);
 	} else if (p == POS_BALL_COLLECTING) {
 		setShoulderHeight(tasr,4);
-		servo[liftLow] = servo[liftLow]-21;		//set to 155. Fix Better Later
 		setArmAngle(tasr,0);
 		servo[elbow] = tasr.elbowZero + elbowRatio(90);
+	} else if (p == POS_DRIVE){
+    servo[liftLow] = 174;
+    servo[liftHigh] = 174;
+    servo[shoulder] = 95;
+    servo[elbow] = 13;
 	} else {
 		if (distance < 0) {
 			d = 0;
 			} else if (distance > positions[p].maxD) {
 			d = positions[p].maxD;
-			}	else {
+			} else {
 			d = distance;
 		}
-		if (p != POS_BALL_COLLECTING) {
-			writeDebugStreamLine("     D = %f",d);
-			writeDebugStreamLine("     Position.height = %f",positions[p].height);
+		if (p < POS_BALL_COLLECTING) {
+			writeDebugStreamLine("D = %f",d);
+			writeDebugStreamLine("Position.height = %f",positions[p].height);
 
 			// Calculate the angle from the distance and arm-length
 			float angle = asin(d / hyp);
 			//Fetch the target height from the preset
 			float targetHeight = positions[p].height;
-			writeDebugStreamLine("     Target Height = %f",targetHeight);
+			writeDebugStreamLine("Target Height = %f",targetHeight);
 			//Calculate the height contribution from the arm angle
 			float b = cos(angle)*hyp;
 
-			writeDebugStreamLine("     Target angle before adjustment = %f",radiansToDegrees(angle));
+			writeDebugStreamLine("Target angle before adjustment = %f",radiansToDegrees(angle));
 			// Adjust for positions where the collector is above the shoulder
 			if (!positions[p].shoulderOver) {
 				//Invert the angle from 180 degrees
 				angle = 180 - radiansToDegrees(angle);
 				b = -b;
-			} else {
+				} else {
 				angle = radiansToDegrees(angle);
 			}
 			float shoulderHeight = targetHeight + b - 13;
 
-			writeDebugStreamLine("     Target angle after adjustment = %f, %f",angle, degreesToRadians(angle));
-			writeDebugStreamLine("     Target adjustment = %f",b);
-			writeDebugStreamLine("     Target shoulder height = %f",shoulderHeight);
+			writeDebugStreamLine("Target angle after adjustment = %f, %f",angle, degreesToRadians(angle));
+			writeDebugStreamLine("Target adjustment = %f",b);
+			writeDebugStreamLine("Target shoulder height = %f",shoulderHeight);
 
 			//Make it so
 			setShoulderHeight(tasr, shoulderHeight);
-			//if (p == POS_AT_90CM || p == POS_AT_120CM) {
-			//	wait10Msec(200);
-			//}
 			setArmAngle(tasr, angle);
 		}
 	}
