@@ -20,77 +20,76 @@ const int DefaultDistance = 6.5;
 
 task main()
 {
-	armInit(tas);
-	wait1Msec(1000);
+  armInit(tas);
+  wait1Msec(1000);
 
-	// Testing the robot at the highest position at 12 inches and 2 inches away from the robot
-	// Change the second argument to different postions (1-3) to test other heights
-	// ======================================================================================
+  // Testing the robot at the highest position at 12 inches and 2 inches away from the robot
+  // Change the second argument to different postions (1-3) to test other heights
+  // ======================================================================================
 
-	//while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
-	//writeDebugStreamLine("=====================");
-	//writeDebugStreamLine("Setting pos 1 @ 8.5 in");
-	//setPosition(tas,4,8.5);
-	//wait1Msec(1000);
+  //while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
+  //writeDebugStreamLine("=====================");
+  //writeDebugStreamLine("Setting pos 1 @ 8.5 in");
+  //setPosition(tas,4,8.5);
+  //wait1Msec(1000);
 
-	//while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
-	//writeDebugStreamLine("=====================");
-	//writeDebugStreamLine("Setting pos 1 @ 4 in");
-	//setPosition(tas,4,6);
-	//wait1Msec(1000);
+  //while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
+  //writeDebugStreamLine("=====================");
+  //writeDebugStreamLine("Setting pos 1 @ 4 in");
+  //setPosition(tas,4,6);
+  //wait1Msec(1000);
 
-	//while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
-	//writeDebugStreamLine("=====================");
-	//writeDebugStreamLine("Setting pos 0");
-	//setPosition(tas,0,0);
-	//wait1Msec(1000);
+  //while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
+  //writeDebugStreamLine("=====================");
+  //writeDebugStreamLine("Setting pos 0");
+  //setPosition(tas,0,0);
+  //wait1Msec(1000);
 
-	//while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
-	int oldButton = kNoButton;
-	int Button = kNoButton;
-	while(1)
-	{
-		Button = nNxtButtonPressed;
-		if (Button != oldButton)
-		{
-			switch (Button)
-			{
-			case kLeftButton:
-				setPosition(tas, POS_BALL_COLLECTING, DefaultDistance);
-				trapDoorClose();
-				collectorIn();
+  //while (nNxtButtonPressed != kEnterButton){ wait1Msec(10); }
+  int oldButton = kNoButton;
+  int Button = kNoButton;
+  int apos = POS_DRIVE;
 
-				//while (nNxtButtonPressed != kRightButton){}
-				wait1Msec(5000);
-				collectorStop();
-				setPosition(tas, POS_AT_120CM, DefaultDistance);
-				trapDoorOpen();
+  while(true) {
+    wait1Msec(101);
 
+    Button = nNxtButtonPressed;
+    if (Button != oldButton)
+    {
+      switch (Button)
+      {
+      case kLeftButton:
+        setPosition(tas, apos, DefaultDistance);
+        trapDoorClose();
+        if(apos == POS_BALL_COLLECTING) {
+          collectorIn();
+        } else {
+          collectorStop();
+        }
+        apos = (apos > 0) ? apos - 2:0;
 
-				//moveInches(40);
+        break;
+      case kEnterButton:
+        apos = 0;
+        setPosition(tas, apos, DefaultDistance);
 
-				break;
-			case kEnterButton:
-				setPosition(tas, POS_AT_30CM, DefaultDistance);
+        break;
+      case kRightButton:
+       setPosition(tas, apos, DefaultDistance);
+        trapDoorClose();
+        if(apos == POS_BALL_COLLECTING) {
+          collectorIn();
+        } else {
+          collectorStop();
+        }
+        apos = (apos < 6) ? apos + 1:6;
 
-				break;
-			case kRightButton:
-				setPosition(tas, POS_BALL_COLLECTING, DefaultDistance);
-				trapDoorClose();
-				collectorIn();
+        break;
+      }
+      oldButton = Button;
 
-				while (nNxtButtonPressed != kLeftButton){}
-				setPosition(tas, POS_AT_30CM, DefaultDistance);
-				trapDoorOpen();
-				break;
-			default:
-				Button = kNoButton;
-				break;
-			}
-			oldButton = Button;
-
-		}
-	}
+    }
+  }
 
 
 }
