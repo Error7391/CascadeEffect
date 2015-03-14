@@ -30,8 +30,9 @@ float inches2ticks(float inches, int distance);
 void driveInit(){
 	motor[motorR] = 0;
 	motor[motorL] = 0;
-	nMotorEncoder[hook] = 0;
-
+//	nMotorEncoder[hook] = 0;
+	servoChangeRate[hook] = 20;
+		servo[hook] = 255;
 	//nPidUpdateInterval = 20
 
 
@@ -43,16 +44,19 @@ void driveInit(){
 
 void hookGrab()
 {
-	nMotorEncoderTarget[hook] = 180;
-	motor[hook] = 30;
-	wait1Msec(1000);
+	//nMotorEncoderTarget[hook] = 180;
+	//motor[hook] = 30;
+	//wait1Msec(1000);
+	servo[hook] = 0;
+	wait10Msec(50);
 }
 
 void hookUngrab()
 {
-	nMotorEncoderTarget[hook] = 0;
-	motor[hook] = 30;
-	wait1Msec(1000);
+	//nMotorEncoderTarget[hook] = 0;
+	//motor[hook] = 30;
+	//wait1Msec(1000);
+	servo[hook] = 255;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
